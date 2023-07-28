@@ -1,0 +1,29 @@
+﻿using Mapster;
+using SportBids.Application.Authentication.Commands.SignUp;
+using SportBids.Application.Authentication.Common;
+using SportBids.Contracts.Authentication.Responses;
+using SportBids.Domain.Models;
+using SportBids.Infrastructure;
+
+namespace SportBids.Api.Common.Mapping;
+
+public class AuthenticationMappingConfig : IRegister
+{
+    public void Register(TypeAdapterConfig config)
+    {
+        config.NewConfig<AuthResult, SignInResponse>()
+            .Map(dst => dst, src => src);
+        config.NewConfig<AuthResult, SignUpResponse>()
+            .Map(dst => dst, src => src);
+        
+        config.NewConfig<SignUpCommand, User>()
+            .Map(dst => dst, src => src);
+        
+        config.NewConfig<AppUser, User>()
+            .Map(dst => dst, src => src)
+            .TwoWays();
+        
+        // config.NewConfig<User, AppUser>()
+        //     .Map(dst => dst, src => src);
+    }
+}
