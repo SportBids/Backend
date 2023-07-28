@@ -34,7 +34,7 @@ public class SignUpCommandHandlerTests
         _mockMapper.Setup(mapper => mapper.Map<User>(command)).Returns(user);
         _mockUserRepository.Create_Success_Mock(user, command.Password);
         _mockJwtFactory.GenerateTokens();
-        
+
         // Act
         var result = await _handler.Handle(command, default);
 
@@ -43,7 +43,7 @@ public class SignUpCommandHandlerTests
         Assert.True(result.Value.AccessToken.Length > 50);
         Assert.True(result.Value.RefreshToken.Length > 20);
     }
-    
+
     [Fact]
     public async Task HandleSignUpCommand_WhenFailedCreateUser_ShouldReturnUserCreationError()
     {
@@ -60,7 +60,7 @@ public class SignUpCommandHandlerTests
         // Assert 
         Assert.True(result.IsFailed);
         Assert.True(result.HasError<UserCreationError>());
-        
+
         _mockJwtFactory.Verify(factory => factory.GenerateRefreshToken(), Times.Never);
     }
 }

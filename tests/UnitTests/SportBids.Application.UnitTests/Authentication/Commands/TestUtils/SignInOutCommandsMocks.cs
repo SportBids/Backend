@@ -17,7 +17,7 @@ public static class SignInOutCommandsMocks
             .ReturnsAsync(Result.Ok(new CreateUserResponse() { UserId = user.Id }));
         return mock;
     }
-    
+
     public static Mock<IUserRepository> Create_Failure_Mock(this Mock<IUserRepository> mock, User user, string password)
     {
         mock
@@ -25,7 +25,7 @@ public static class SignInOutCommandsMocks
             .ReturnsAsync(Result.Fail(new UserCreationError()));
         return mock;
     }
-    
+
     public static Mock<IUserRepository> FindByUsername_Mock(this Mock<IUserRepository> mock, string username, User returnUser)
     {
         mock
@@ -34,10 +34,10 @@ public static class SignInOutCommandsMocks
         return mock;
     }
 
-    public static Mock<IUserRepository> CheckPassword_Mock(this Mock<IUserRepository> mock, string password, User user, bool returnResult)
+    public static Mock<IUserRepository> GetUserIfValidPassword_Mock(this Mock<IUserRepository> mock, string userName, string password, User? returnResult)
     {
         mock
-            .Setup(repository => repository.CheckPassword(user, password))
+            .Setup(repository => repository.GetUserIfValidPassword(userName, password))
             .ReturnsAsync(returnResult);
         return mock;
     }

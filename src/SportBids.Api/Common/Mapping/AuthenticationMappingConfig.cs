@@ -15,15 +15,12 @@ public class AuthenticationMappingConfig : IRegister
             .Map(dst => dst, src => src);
         config.NewConfig<AuthResult, SignUpResponse>()
             .Map(dst => dst, src => src);
-        
+
         config.NewConfig<SignUpCommand, User>()
             .Map(dst => dst, src => src);
-        
+
         config.NewConfig<AppUser, User>()
             .Map(dst => dst, src => src)
             .TwoWays();
-        
-        // config.NewConfig<User, AppUser>()
-        //     .Map(dst => dst, src => src);
     }
 }

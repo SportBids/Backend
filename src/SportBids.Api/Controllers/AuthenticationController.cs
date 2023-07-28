@@ -30,13 +30,13 @@ public class AuthenticationController : ApiControllerBase
         var result = await _mediatr.Send(command, cancellationToken);
         if (result.IsSuccess)
         {
-            var response = _mapper.Map<SignUpResponse>(result.Value); 
+            var response = _mapper.Map<SignUpResponse>(result.Value);
             return Ok(response);
         }
 
         return ProcessError(result.Errors);
     }
-    
+
     [AllowAnonymous]
     [HttpPost("signin")]
     public async Task<IActionResult> SignIn([FromBody] SignInRequest request, CancellationToken cancellationToken)
@@ -45,10 +45,10 @@ public class AuthenticationController : ApiControllerBase
         var result = await _mediatr.Send(command, cancellationToken);
         if (result.IsSuccess)
             return Ok(_mapper.Map<SignInResponse>(result.Value));
-        
+
         return ProcessError(result.Errors);
     }
-    
+
     [HttpPost("signout")]
     public Task<IActionResult> SignOut(CancellationToken cancellationToken)
     {

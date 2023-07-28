@@ -33,7 +33,6 @@ public class JwtFactory : IJwtFactory
         return Convert.ToBase64String(bytes);
     }
 
-    
     private SigningCredentials GetSigningCredentials()
     {
         // var key = Encoding.UTF8.GetBytes(_jwtSettings.SecretKey);

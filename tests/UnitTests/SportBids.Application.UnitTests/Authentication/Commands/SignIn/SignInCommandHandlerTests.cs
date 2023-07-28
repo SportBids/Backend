@@ -26,7 +26,7 @@ public class SignInCommandHandlerTests
     {
         // Arrange
         var command = CreateSignInCommandUtil.CreateCommand();
-        
+
         // Act
         var result = await _handler.Handle(command, default);
 
@@ -37,17 +37,16 @@ public class SignInCommandHandlerTests
         _mockJwtFactory.Verify(factory => factory.GenerateAccessToken(It.IsAny<Guid>()), Times.Never);
         _mockJwtFactory.Verify(factory => factory.GenerateRefreshToken(), Times.Never);
     }
-    
+
     [Fact]
     public async Task HandleSignInCommand_WhenBadPassword_ShouldReturnSignInError()
     {
         // Arrange
-        var user = new User();
+        var user = null as User;
         var command = CreateSignInCommandUtil.CreateCommand();
 
         _mockUserRepository
-            .FindByUsername_Mock(command.UserName, user)
-            .CheckPassword_Mock(command.Password, user, false);
+            .GetUserIfValidPassword_Mock(command.UserName, command.Password, user);
 
         // Act
         var result = await _handler.Handle(command, default);

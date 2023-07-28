@@ -30,21 +30,21 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
             .Where(validationFailure => validationFailure is not null)
             .Select(failure => new { failure.PropertyName, failure.ErrorMessage })
             .ToArray();
-        
+
         if (!validationErrors.Any())
         {
             return await next();
         }
-        
+
         var result = new TResponse();
         var error = new ValidationError();
         foreach (var validationError in validationErrors)
         {
             error.WithMetadata(validationError.PropertyName, validationError.ErrorMessage);
         }
-        
+
         result.Reasons.Add(error);
-        
+
         return result;
     }
 }

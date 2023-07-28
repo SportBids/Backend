@@ -16,14 +16,16 @@ public abstract class ApiControllerBase : ControllerBase
         {
             var modelStateDictionary = new ModelStateDictionary();
             foreach (var keyValuePair in errors.SelectMany(error => error.Metadata))
+            {
                 modelStateDictionary.AddModelError(
-                    keyValuePair.Key, 
+                    keyValuePair.Key,
                     keyValuePair.Value.ToString() ?? string.Empty);
+            }
 
             return ValidationProblem(modelStateDictionary);
         }
-        
-        var firstError = errors.First();
+
+        var firstError = errors[0];
 
         var statusCode = firstError switch
         {
@@ -33,8 +35,10 @@ public abstract class ApiControllerBase : ControllerBase
         };
         var errorMessage = firstError.Message;
         if (firstError.Metadata.Count > 0)
+        {
             errorMessage += firstError.Metadata.Select(metadata => metadata.Value.ToString())
                 .Aggregate(" ", (s, s1) => string.Concat(s, " ", s1));
+        }
 
         return Problem(statusCode: statusCode, title: errorMessage);
     }
