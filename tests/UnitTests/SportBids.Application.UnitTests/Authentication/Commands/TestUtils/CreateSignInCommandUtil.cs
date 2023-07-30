@@ -1,4 +1,4 @@
-﻿using SportBids.Application.Authentication.Commands.SignIn;
+﻿using SportBids.Application.Authentication.Queries.SignIn;
 
 namespace SportBids.Application.UnitTests.Authentication.Commands.TestUtils;
 

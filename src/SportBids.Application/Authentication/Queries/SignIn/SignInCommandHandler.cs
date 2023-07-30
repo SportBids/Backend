@@ -6,7 +6,7 @@ using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Authentication;
 using SportBids.Application.Interfaces.Persistence;
 
-namespace SportBids.Application.Authentication.Commands.SignIn;
+namespace SportBids.Application.Authentication.Queries.SignIn;
 
 public class SignInCommandHandler : IRequestHandler<SignInCommand, Result<AuthResult>>
 {

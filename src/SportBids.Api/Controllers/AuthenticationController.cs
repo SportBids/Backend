@@ -2,8 +2,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SportBids.Application.Authentication.Commands.SignIn;
 using SportBids.Application.Authentication.Commands.SignUp;
+using SportBids.Application.Authentication.Queries.SignIn;
 using SportBids.Contracts.Authentication.Requests;
 using SportBids.Contracts.Authentication.Responses;
 
