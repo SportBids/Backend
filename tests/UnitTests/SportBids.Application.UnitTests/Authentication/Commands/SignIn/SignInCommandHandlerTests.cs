@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using MapsterMapper;
+using Moq;
 using SportBids.Application.Authentication.Commands.SignIn;
 using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Authentication;
@@ -13,12 +14,14 @@ public class SignInCommandHandlerTests
     private readonly SignInCommandHandler _handler;
     private readonly Mock<IUserRepository> _mockUserRepository;
     private readonly Mock<IJwtFactory> _mockJwtFactory;
+    private readonly Mock<IMapper> _mockMapper;
 
     public SignInCommandHandlerTests()
     {
         _mockJwtFactory = new Mock<IJwtFactory>();
         _mockUserRepository = new Mock<IUserRepository>();
-        _handler = new SignInCommandHandler(_mockUserRepository.Object, _mockJwtFactory.Object);
+        _mockMapper = new Mock<IMapper>();
+        _handler = new SignInCommandHandler(_mockUserRepository.Object, _mockJwtFactory.Object, _mockMapper.Object);
     }
 
     [Fact]

@@ -31,12 +31,11 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, Result<AuthRe
         }
 
         var createdUser = createUserResponse.Value;
-        var ttt = new AuthResult()
-        {
-            AccessToken = _jwtFactory.GenerateAccessToken(createdUser.UserId),
-            RefreshToken = _jwtFactory.GenerateRefreshToken()
-        };
 
-        return Result.Ok(ttt);
+        var response = _mapper.Map<AuthResult>(createdUser);
+        response.AccessToken = _jwtFactory.GenerateAccessToken(createdUser.Id);
+        response.RefreshToken = _jwtFactory.GenerateRefreshToken();
+
+        return Result.Ok(response);
     }
 }

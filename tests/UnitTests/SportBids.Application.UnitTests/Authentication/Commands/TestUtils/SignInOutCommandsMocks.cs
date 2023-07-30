@@ -14,7 +14,7 @@ public static class SignInOutCommandsMocks
     {
         mock
             .Setup(r => r.Create(user, password))
-            .ReturnsAsync(Result.Ok(new CreateUserResponse() { UserId = user.Id }));
+            .ReturnsAsync(Result.Ok(new User { Id = Guid.NewGuid(), Email = user.Email, FirstName = user.FirstName, LastName = user.LastName, UserName = user.UserName }));
         return mock;
     }
 

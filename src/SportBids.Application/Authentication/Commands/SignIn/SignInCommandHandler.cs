@@ -1,4 +1,5 @@
 ﻿using FluentResults;
+using MapsterMapper;
 using MediatR;
 using SportBids.Application.Authentication.Common;
 using SportBids.Application.Common.Errors;
@@ -11,11 +12,13 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, Result<AuthRe
 {
     private readonly IJwtFactory _jwtFactory;
     private readonly IUserRepository _userRepository;
+    private readonly IMapper _mapper;
 
-    public SignInCommandHandler(IUserRepository userRepository, IJwtFactory jwtFactory)
+    public SignInCommandHandler(IUserRepository userRepository, IJwtFactory jwtFactory, IMapper mapper)
     {
         _userRepository = userRepository;
         _jwtFactory = jwtFactory;
+        _mapper = mapper;
     }
 
     public async Task<Result<AuthResult>> Handle(SignInCommand request, CancellationToken cancellationToken)
@@ -24,11 +27,9 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, Result<AuthRe
         if (user is null)
             return Result.Fail<AuthResult>(new SignInError());
 
-        var response = new AuthResult()
-        {
-            AccessToken = _jwtFactory.GenerateAccessToken(user.Id),
-            RefreshToken = _jwtFactory.GenerateRefreshToken()
-        };
+        var response = _mapper.Map<AuthResult>(user);
+        response.AccessToken = _jwtFactory.GenerateAccessToken(user.Id);
+        response.RefreshToken = _jwtFactory.GenerateRefreshToken();
 
         return Result.Ok(response);
     }

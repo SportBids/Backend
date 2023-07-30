@@ -19,7 +19,7 @@ public class UserRepository : IUserRepository
         _mapper = mapper;
     }
 
-    public async Task<Result<CreateUserResponse>> Create(User user, string password)
+    public async Task<Result<User>> Create(User user, string password)
     {
         var newUser = _mapper.Map<AppUser>(user);
         var identityResult = await _userManager.CreateAsync(newUser, password);
@@ -32,14 +32,11 @@ public class UserRepository : IUserRepository
                 error.WithMetadata(identityError.Code, identityError.Description);
             }
 
-            return Result.Fail<CreateUserResponse>(error);
+            return Result.Fail<User>(error);
         }
 
-        var createUserResponse = new CreateUserResponse
-        {
-            UserId = newUser.Id,
-        };
-        return Result.Ok(createUserResponse);
+        user = _mapper.Map<User>(newUser);
+        return Result.Ok(user);
     }
 
     public async Task<User?> FindByUsername(string username)

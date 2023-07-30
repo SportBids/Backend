@@ -6,7 +6,7 @@ namespace SportBids.Application.Interfaces.Persistence;
 
 public interface IUserRepository
 {
-    Task<Result<CreateUserResponse>> Create(User user, string password);
+    Task<Result<User>> Create(User user, string password);
     Task<User?> FindByUsername(string username);
     Task<User?> GetUserIfValidPassword(string userName, string password);
 }

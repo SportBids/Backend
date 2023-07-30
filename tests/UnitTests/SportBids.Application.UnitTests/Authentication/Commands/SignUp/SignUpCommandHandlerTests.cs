@@ -1,6 +1,8 @@
-﻿using MapsterMapper;
+﻿using System.Runtime.CompilerServices;
+using MapsterMapper;
 using Moq;
 using SportBids.Application.Authentication.Commands.SignUp;
+using SportBids.Application.Authentication.Common;
 using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Authentication;
 using SportBids.Application.Interfaces.Persistence;
@@ -34,6 +36,8 @@ public class SignUpCommandHandlerTests
         _mockMapper.Setup(mapper => mapper.Map<User>(command)).Returns(user);
         _mockUserRepository.Create_Success_Mock(user, command.Password);
         _mockJwtFactory.GenerateTokens();
+        _mockMapper.Setup(m => m.Map<AuthResult>(It.IsAny<User>()))
+            .Returns(new AuthResult { FirstName = user.FirstName, LastName = user.LastName, UserName = user.UserName, Email = user.Email });
 
         // Act
         var result = await _handler.Handle(command, default);
