@@ -1,6 +1,6 @@
 ﻿using SportBids.Application.Authentication.Queries.SignIn;
 
-namespace SportBids.Application.UnitTests.Authentication.Commands.TestUtils;
+namespace SportBids.Application.UnitTests.Authentication.TestUtils;
 
 public class CreateSignInCommandUtil
 {

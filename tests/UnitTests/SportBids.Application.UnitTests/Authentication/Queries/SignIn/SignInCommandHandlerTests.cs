@@ -4,10 +4,10 @@ using SportBids.Application.Authentication.Queries.SignIn;
 using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Authentication;
 using SportBids.Application.Interfaces.Persistence;
-using SportBids.Application.UnitTests.Authentication.Commands.TestUtils;
+using SportBids.Application.UnitTests.Authentication.TestUtils;
 using SportBids.Domain.Models;
 
-namespace SportBids.Application.UnitTests.Authentication.Commands.SignIn;
+namespace SportBids.Application.UnitTests.Authentication.Queries.SignIn;
 
 public class SignInCommandHandlerTests
 {

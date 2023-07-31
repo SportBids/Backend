@@ -1,12 +1,12 @@
-﻿using System.Runtime.CompilerServices;
-using MapsterMapper;
+﻿using MapsterMapper;
+using MediatR;
 using Moq;
 using SportBids.Application.Authentication.Commands.SignUp;
 using SportBids.Application.Authentication.Common;
 using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Authentication;
 using SportBids.Application.Interfaces.Persistence;
-using SportBids.Application.UnitTests.Authentication.Commands.TestUtils;
+using SportBids.Application.UnitTests.Authentication.TestUtils;
 using SportBids.Domain.Models;
 
 namespace SportBids.Application.UnitTests.Authentication.Commands.SignUp;
@@ -17,13 +17,15 @@ public class SignUpCommandHandlerTests
     private readonly Mock<IMapper> _mockMapper;
     private readonly Mock<IUserRepository> _mockUserRepository;
     private readonly Mock<IJwtFactory> _mockJwtFactory;
+    private readonly Mock<ISender> _mockSender;
 
     public SignUpCommandHandlerTests()
     {
         _mockUserRepository = new Mock<IUserRepository>();
         _mockMapper = new Mock<IMapper>();
         _mockJwtFactory = new Mock<IJwtFactory>();
-        _handler = new SignUpCommandHandler(_mockJwtFactory.Object, _mockUserRepository.Object, _mockMapper.Object);
+        _mockSender = new Mock<ISender>();
+        _handler = new SignUpCommandHandler(_mockJwtFactory.Object, _mockUserRepository.Object, _mockMapper.Object, _mockSender.Object);
     }
 
     [Fact]

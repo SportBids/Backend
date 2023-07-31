@@ -1,6 +1,7 @@
 ﻿using FluentResults;
 using MapsterMapper;
 using MediatR;
+using SportBids.Application.Authentication.Commands.SendEmailConfirmation;
 using SportBids.Application.Authentication.Common;
 using SportBids.Application.Interfaces.Authentication;
 using SportBids.Application.Interfaces.Persistence;
@@ -13,12 +14,14 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, Result<AuthRe
     private readonly IMapper _mapper;
     private readonly IUserRepository _userRepository;
     private readonly IJwtFactory _jwtFactory;
+    private readonly ISender _mediatr;
 
-    public SignUpCommandHandler(IJwtFactory jwtFactory, IUserRepository userRepository, IMapper mapper)
+    public SignUpCommandHandler(IJwtFactory jwtFactory, IUserRepository userRepository, IMapper mapper, ISender mediatr)
     {
         _jwtFactory = jwtFactory;
         _userRepository = userRepository;
         _mapper = mapper;
+        _mediatr = mediatr;
     }
 
     public async Task<Result<AuthResult>> Handle(SignUpCommand request, CancellationToken cancellationToken)
@@ -36,6 +39,17 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, Result<AuthRe
         response.AccessToken = _jwtFactory.GenerateAccessToken(createdUser.Id);
         response.RefreshToken = _jwtFactory.GenerateRefreshToken();
 
+        SendEmailConfirmation(createdUser);
+
         return Result.Ok(response);
+    }
+
+    private void SendEmailConfirmation(User createdUser)
+    {
+        var command = new SendEmailConfirmationCommand()
+        {
+            User = createdUser
+        };
+        _mediatr.Send(command);
     }
 }

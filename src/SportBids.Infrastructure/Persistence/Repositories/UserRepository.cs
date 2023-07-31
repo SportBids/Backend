@@ -1,7 +1,6 @@
 ﻿using FluentResults;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
-using SportBids.Application.Authentication.Common;
 using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Persistence;
 using SportBids.Domain.Models;
@@ -17,6 +16,16 @@ public class UserRepository : IUserRepository
     {
         _userManager = userManager;
         _mapper = mapper;
+    }
+
+    public async Task<bool> ConfirmEmailAsync(Guid userId, string emailConfirmationToken)
+    {
+        var appUser = await _userManager.FindByIdAsync(userId.ToString());
+        if (appUser == null)
+            return false;
+
+        var identityResult = await _userManager.ConfirmEmailAsync(appUser, emailConfirmationToken);
+        return identityResult.Succeeded;
     }
 
     public async Task<Result<User>> Create(User user, string password)
@@ -45,6 +54,16 @@ public class UserRepository : IUserRepository
         if (appUser is null)
             return null;
         return _mapper.Map<User>(appUser);
+    }
+
+    public async Task<string> GenerateEmailConfirmationTokenAsync(User user)
+    {
+        var appUser = await _userManager.FindByNameAsync(user.UserName);
+        if (appUser is null)
+            return string.Empty;
+
+        var token = await _userManager.GenerateEmailConfirmationTokenAsync(appUser);
+        return token;
     }
 
     public async Task<User?> GetUserIfValidPassword(string userName, string password)

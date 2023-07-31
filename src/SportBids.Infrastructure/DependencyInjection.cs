@@ -25,6 +25,7 @@ public static class DependencyInjection
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped(typeof(UserManager<AppUser>));
+        services.AddScoped<IEmailService, EmailService>();
 
         // services.AddDbContext<AppDbContext>(
         //     options => options.UseSqlite(

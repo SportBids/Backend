@@ -1,12 +1,11 @@
 ﻿using FluentResults;
 using Moq;
-using SportBids.Application.Authentication.Common;
 using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Authentication;
 using SportBids.Application.Interfaces.Persistence;
 using SportBids.Domain.Models;
 
-namespace SportBids.Application.UnitTests.Authentication.Commands.TestUtils;
+namespace SportBids.Application.UnitTests.Authentication.TestUtils;
 
 public static class SignInOutCommandsMocks
 {
