@@ -12,7 +12,7 @@ public abstract class ApiControllerBase : ControllerBase
 {
     protected IActionResult ProcessError(List<IError> errors)
     {
-        if (errors.All(error => error is ValidationError))
+        if (errors.All(error => error is ValidationError) || errors.All(error => error is UserCreationError))
         {
             var modelStateDictionary = new ModelStateDictionary();
             foreach (var keyValuePair in errors.SelectMany(error => error.Metadata))

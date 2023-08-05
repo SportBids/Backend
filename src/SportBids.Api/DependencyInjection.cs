@@ -10,6 +10,15 @@ public static class DependencyInjection
     {
         services.AddControllers();
         services.AddMappings();
+        services.AddCors(opt =>
+        {
+            opt.AddDefaultPolicy(config =>
+            {
+                config.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
+        });
         return services;
     }
 
