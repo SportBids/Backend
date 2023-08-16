@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SportBids.Application.Authentication.Commands.SignUp;
 using SportBids.Application.Authentication.Queries.SignIn;
-using SportBids.Contracts.Authentication.Requests;
-using SportBids.Contracts.Authentication.Responses;
+using SportBids.Contracts.Account.SignIn;
+using SportBids.Contracts.Account.SignUp;
 
 namespace SportBids.Api.Controllers;
 

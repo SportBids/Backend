@@ -1,6 +1,6 @@
 ﻿#nullable disable
 
-namespace SportBids.Contracts.Authentication.Responses;
+namespace SportBids.Contracts.Account.SignIn;
 
 public record SignInResponse
 {

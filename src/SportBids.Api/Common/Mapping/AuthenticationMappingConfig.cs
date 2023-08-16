@@ -1,7 +1,8 @@
 ﻿using Mapster;
 using SportBids.Application.Authentication.Commands.SignUp;
 using SportBids.Application.Authentication.Common;
-using SportBids.Contracts.Authentication.Responses;
+using SportBids.Contracts.Account.SignIn;
+using SportBids.Contracts.Account.SignUp;
 using SportBids.Domain.Models;
 using SportBids.Infrastructure;
 

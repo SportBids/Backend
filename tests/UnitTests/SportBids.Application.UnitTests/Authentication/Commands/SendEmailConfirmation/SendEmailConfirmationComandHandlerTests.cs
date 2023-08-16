@@ -31,8 +31,8 @@ public class SendEmailConfirmationComandHandlerTests
                 Email = "dont@email.me"
             }
         };
-        string subjectParam = null, bodyParam = null;
-        string[] toParam = null;
+        string subjectParam = null!, bodyParam = null!;
+        string[] toParam = null!;
         _mockUserRepository.FindByUsername_Mock(command.User.UserName, command.User);
         _mockEmailService
             .Setup(service => service.SendAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string[]>(), It.IsAny<CancellationToken>()))

@@ -1,3 +1,5 @@
+#nullable disable
+
 using MediatR;
 using SportBids.Domain.Models;
 

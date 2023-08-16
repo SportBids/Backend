@@ -2,7 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace SportBids.Contracts.Authentication.Requests;
+namespace SportBids.Contracts.Account.SignIn;
 
 public record SignInRequest()
 {

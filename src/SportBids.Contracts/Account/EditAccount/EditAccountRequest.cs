@@ -2,17 +2,14 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace SportBids.Contracts.Authentication.Requests;
+namespace SportBids.Contracts.Account.EditAccount;
 
-public record SignUpRequest : SignInRequest
+public class EditAccountRequest
 {
-    [Required]
-    [EmailAddress]
-    public string Email { get; init; }
-
     [MaxLength(50)]
     public string FirstName { get; init; }
 
     [MaxLength(50)]
     public string LastName { get; init; }
 }
+

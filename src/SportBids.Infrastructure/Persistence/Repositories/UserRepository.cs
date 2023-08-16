@@ -1,4 +1,5 @@
 ﻿using FluentResults;
+using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using SportBids.Application.Common.Errors;
@@ -48,6 +49,16 @@ public class UserRepository : IUserRepository
         return Result.Ok(user);
     }
 
+    public async Task<User?> FindById(Guid userId)
+    {
+        var appUser = await _userManager.FindByIdAsync(userId.ToString());
+        if (appUser is null)
+        {
+            return null;
+        }
+        return _mapper.Map<User>(appUser);
+    }
+
     public async Task<User?> FindByUsername(string username)
     {
         var appUser = await _userManager.FindByNameAsync(username);
@@ -77,5 +88,36 @@ public class UserRepository : IUserRepository
             return null;
 
         return _mapper.Map<User>(appUser);
+    }
+
+    public async Task<User> UpdateAsync(User user)
+    {
+        var appUser = await _userManager.FindByIdAsync(user.Id.ToString());
+        if (appUser is null)
+            throw new InvalidOperationException();
+        _mapper.Map<User, AppUser>(user, appUser);
+        var result = await _userManager.UpdateAsync(appUser);
+        return _mapper.Map<User>(appUser);
+    }
+
+    public async Task<Result> UpdatePasswordAsync(Guid userId, string currentPassword, string newPassword)
+    {
+        var appUser = await _userManager.FindByIdAsync(userId.ToString());
+        if (appUser is null)
+            throw new InvalidOperationException();
+        var result = await _userManager.ChangePasswordAsync(appUser, currentPassword, newPassword);
+
+        if (result.Succeeded)
+        {
+            return Result.Ok();
+        }
+
+        var error = new ChangePasswordError();
+        foreach (var resultError in result.Errors)
+        {
+            error.WithMetadata(resultError.Code, resultError.Description);
+        }
+
+        return Result.Fail(error);
     }
 }

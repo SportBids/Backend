@@ -33,8 +33,13 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(
             options => options.UseInMemoryDatabase("InMemory"));
 
+        //services
+        //    .AddIdentity<AppUser, IdentityRole<Guid>>(
+        //        options => options.User.RequireUniqueEmail = true)
+        //    .AddEntityFrameworkStores<AppDbContext>()
+        //    .AddDefaultTokenProviders();
         services
-            .AddIdentity<AppUser, IdentityRole<Guid>>(
+            .AddIdentityCore<AppUser>(
                 options => options.User.RequireUniqueEmail = true)
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();

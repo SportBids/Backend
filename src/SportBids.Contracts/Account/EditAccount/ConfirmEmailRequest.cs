@@ -1,6 +1,8 @@
+#nullable disable
+
 using System.ComponentModel.DataAnnotations;
 
-namespace SportBids.Contracts.Account.Requests;
+namespace SportBids.Contracts.Account.EditAccount;
 
 public class ConfirmEmailRequest
 {

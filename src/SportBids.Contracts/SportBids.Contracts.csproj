@@ -6,4 +6,16 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <None Remove="Account\EditAccount\" />
+      <None Remove="Account\CreateAccount\" />
+      <None Remove="Account\SignIn\" />
+      <None Remove="Account\ChangePassword\" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Account\EditAccount\" />
+      <Folder Include="Account\CreateAccount\" />
+      <Folder Include="Account\SignIn\" />
+      <Folder Include="Account\ChangePassword\" />
+    </ItemGroup>
 </Project>

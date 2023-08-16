@@ -1,10 +1,14 @@
-using System.Reflection.Metadata;
+using System.Security.Claims;
+using FluentResults;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SportBids.Application.Accounts.Commands.ChangePassword;
+using SportBids.Application.Accounts.Commands.EditAccount;
 using SportBids.Application.Authentication.Commands.ConfirmEmail;
-using SportBids.Contracts.Account.Requests;
+using SportBids.Contracts.Account.ChangePassword;
+using SportBids.Contracts.Account.EditAccount;
 
 namespace SportBids.Api.Controllers;
 
@@ -33,5 +37,35 @@ public class AccountController : ApiControllerBase
         }
 
         return Ok("Email confirmed successfuly.");
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> Edit([FromBody] EditAccountRequest request, CancellationToken cancellationToken)
+    {
+        var command = _mapper.Map<EditAccountCommand>(request);
+        command.UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var response = await _mediatr.Send(command, cancellationToken);
+
+        if (response.IsFailed)
+        {
+            return BadRequest("Failed to update.");
+        }
+
+        return Ok(_mapper.Map<EditAccountResponse>(response.Value));
+    }
+
+    [HttpPut("changePass")]
+    public async Task<IActionResult> EditPassord([FromBody] ChangePasswordRequest request, CancellationToken cancellationToken)
+    {
+        var command = _mapper.Map<ChangePasswordCommand>(request);
+        command.UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var response = await _mediatr.Send(command, cancellationToken);
+
+        if (response.IsFailed)
+        {
+            return ProcessError(response.Errors);
+        }
+
+        return Ok();
     }
 }

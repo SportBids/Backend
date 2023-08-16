@@ -18,4 +18,12 @@
     <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Accounts\" />
+    <None Remove="Accounts\Commands\ChangePassword\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Accounts\" />
+    <Folder Include="Accounts\Commands\ChangePassword\" />
+  </ItemGroup>
 </Project>
