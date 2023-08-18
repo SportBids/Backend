@@ -3,7 +3,7 @@ using Moq;
 using SportBids.Application.Authentication.Queries.SignIn;
 using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Authentication;
-using SportBids.Application.Interfaces.Persistence;
+using SportBids.Application.Interfaces.Services;
 using SportBids.Application.UnitTests.Authentication.TestUtils;
 using SportBids.Domain.Models;
 
@@ -12,16 +12,16 @@ namespace SportBids.Application.UnitTests.Authentication.Queries.SignIn;
 public class SignInCommandHandlerTests
 {
     private readonly SignInCommandHandler _handler;
-    private readonly Mock<IUserRepository> _mockUserRepository;
+    private readonly Mock<IAuthService> _mockAuthService;
     private readonly Mock<IJwtFactory> _mockJwtFactory;
     private readonly Mock<IMapper> _mockMapper;
 
     public SignInCommandHandlerTests()
     {
         _mockJwtFactory = new Mock<IJwtFactory>();
-        _mockUserRepository = new Mock<IUserRepository>();
+        _mockAuthService = new Mock<IAuthService>();
         _mockMapper = new Mock<IMapper>();
-        _handler = new SignInCommandHandler(_mockUserRepository.Object, _mockJwtFactory.Object, _mockMapper.Object);
+        _handler = new SignInCommandHandler(_mockAuthService.Object, _mockJwtFactory.Object, _mockMapper.Object);
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public class SignInCommandHandlerTests
         var user = null as User;
         var command = CreateSignInCommandUtil.CreateCommand();
 
-        _mockUserRepository
+        _mockAuthService
             .GetUserIfValidPassword_Mock(command.UserName, command.Password, user);
 
         // Act

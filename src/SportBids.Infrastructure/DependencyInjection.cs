@@ -6,10 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SportBids.Application.Interfaces.Authentication;
-using SportBids.Application.Interfaces.Persistence;
 using SportBids.Application.Interfaces.Services;
 using SportBids.Infrastructure.Authentication;
 using SportBids.Infrastructure.Persistence;
+using SportBids.Infrastructure.Persistence.Entities;
 using SportBids.Infrastructure.Persistence.Repositories;
 using SportBids.Infrastructure.Services;
 
@@ -23,7 +23,7 @@ public static class DependencyInjection
             .AddAuth(configuration);
 
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IAuthService, AuthService>();
         services.AddScoped(typeof(UserManager<AppUser>));
         services.AddScoped<IEmailService, EmailService>();
 

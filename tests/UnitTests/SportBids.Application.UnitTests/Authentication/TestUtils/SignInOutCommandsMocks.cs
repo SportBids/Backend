@@ -2,14 +2,14 @@
 using Moq;
 using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Authentication;
-using SportBids.Application.Interfaces.Persistence;
+using SportBids.Application.Interfaces.Services;
 using SportBids.Domain.Models;
 
 namespace SportBids.Application.UnitTests.Authentication.TestUtils;
 
 public static class SignInOutCommandsMocks
 {
-    public static Mock<IUserRepository> Create_Success_Mock(this Mock<IUserRepository> mock, User user, string password)
+    public static Mock<IAuthService> Create_Success_Mock(this Mock<IAuthService> mock, User user, string password)
     {
         mock
             .Setup(r => r.Create(user, password))
@@ -17,7 +17,7 @@ public static class SignInOutCommandsMocks
         return mock;
     }
 
-    public static Mock<IUserRepository> Create_Failure_Mock(this Mock<IUserRepository> mock, User user, string password)
+    public static Mock<IAuthService> Create_Failure_Mock(this Mock<IAuthService> mock, User user, string password)
     {
         mock
             .Setup(r => r.Create(user, password))
@@ -25,7 +25,7 @@ public static class SignInOutCommandsMocks
         return mock;
     }
 
-    public static Mock<IUserRepository> FindByUsername_Mock(this Mock<IUserRepository> mock, string username, User returnUser)
+    public static Mock<IAuthService> FindByUsername_Mock(this Mock<IAuthService> mock, string username, User returnUser)
     {
         mock
             .Setup(repository => repository.FindByUsername(username))
@@ -33,7 +33,7 @@ public static class SignInOutCommandsMocks
         return mock;
     }
 
-    public static Mock<IUserRepository> GetUserIfValidPassword_Mock(this Mock<IUserRepository> mock, string userName, string password, User? returnResult)
+    public static Mock<IAuthService> GetUserIfValidPassword_Mock(this Mock<IAuthService> mock, string userName, string password, User? returnResult)
     {
         mock
             .Setup(repository => repository.GetUserIfValidPassword(userName, password))

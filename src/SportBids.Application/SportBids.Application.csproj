@@ -21,9 +21,17 @@
   <ItemGroup>
     <None Remove="Accounts\" />
     <None Remove="Accounts\Commands\ChangePassword\" />
+    <None Remove="Interfaces\Persistence\" />
+    <None Remove="Authentication\Commands\RefreshToken\" />
+    <None Remove="Authentication\Commands\RevokeToken\" />
+    <None Remove="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Accounts\" />
     <Folder Include="Accounts\Commands\ChangePassword\" />
+    <Folder Include="Interfaces\Persistence\" />
+    <Folder Include="Authentication\Commands\RefreshToken\" />
+    <Folder Include="Authentication\Commands\RevokeToken\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

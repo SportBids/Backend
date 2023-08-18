@@ -4,26 +4,26 @@ using MediatR;
 using SportBids.Application.Authentication.Common;
 using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Authentication;
-using SportBids.Application.Interfaces.Persistence;
+using SportBids.Application.Interfaces.Services;
 
 namespace SportBids.Application.Authentication.Queries.SignIn;
 
 public class SignInCommandHandler : IRequestHandler<SignInCommand, Result<AuthResult>>
 {
     private readonly IJwtFactory _jwtFactory;
-    private readonly IUserRepository _userRepository;
+    private readonly IAuthService _authService;
     private readonly IMapper _mapper;
 
-    public SignInCommandHandler(IUserRepository userRepository, IJwtFactory jwtFactory, IMapper mapper)
+    public SignInCommandHandler(IAuthService authService, IJwtFactory jwtFactory, IMapper mapper)
     {
-        _userRepository = userRepository;
+        _authService = authService;
         _jwtFactory = jwtFactory;
         _mapper = mapper;
     }
 
     public async Task<Result<AuthResult>> Handle(SignInCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetUserIfValidPassword(request.UserName, request.Password);
+        var user = await _authService.GetUserIfValidPassword(request.UserName, request.Password);
         if (user is null)
             return Result.Fail<AuthResult>(new SignInError());
 

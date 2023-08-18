@@ -1,6 +1,5 @@
 using Moq;
 using SportBids.Application.Authentication.Commands.SendEmailConfirmation;
-using SportBids.Application.Interfaces.Persistence;
 using SportBids.Application.Interfaces.Services;
 using SportBids.Domain.Models;
 using SportBids.Application.UnitTests.Authentication.TestUtils;
@@ -9,12 +8,12 @@ namespace SportBids.Application.UnitTests.Authentication.Commands.SendEmailConfi
 
 public class SendEmailConfirmationComandHandlerTests
 {
-    private readonly Mock<IUserRepository> _mockUserRepository;
+    private readonly Mock<IAuthService> _mockAuthService;
     private readonly Mock<IEmailService> _mockEmailService;
 
     public SendEmailConfirmationComandHandlerTests()
     {
-        _mockUserRepository = new Mock<IUserRepository>();
+        _mockAuthService = new Mock<IAuthService>();
         _mockEmailService = new Mock<IEmailService>();
     }
 
@@ -33,7 +32,7 @@ public class SendEmailConfirmationComandHandlerTests
         };
         string subjectParam = null!, bodyParam = null!;
         string[] toParam = null!;
-        _mockUserRepository.FindByUsername_Mock(command.User.UserName, command.User);
+        _mockAuthService.FindByUsername_Mock(command.User.UserName, command.User);
         _mockEmailService
             .Setup(service => service.SendAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string[]>(), It.IsAny<CancellationToken>()))
             .Callback((string subject, string body, string[] to, CancellationToken token) =>
@@ -42,7 +41,7 @@ public class SendEmailConfirmationComandHandlerTests
                 bodyParam = body;
                 toParam = to;
             });
-        var sut = new SendEmailConfirmationCommandHandler(_mockUserRepository.Object, _mockEmailService.Object);
+        var sut = new SendEmailConfirmationCommandHandler(_mockAuthService.Object, _mockEmailService.Object);
 
         // Act
         await sut.Handle(command, default);

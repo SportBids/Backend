@@ -1,29 +1,27 @@
 ﻿using FluentResults;
-using MapsterMapper;
 using MediatR;
 using SportBids.Application.Common.Errors;
-using SportBids.Application.Interfaces.Persistence;
-using SportBids.Domain.Models;
+using SportBids.Application.Interfaces.Services;
 
 namespace SportBids.Application.Accounts.Commands.ChangePassword;
 
 public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, Result>
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IAuthService _authService;
 
-    public ChangePasswordCommandHandler(IUserRepository userRepository)
+    public ChangePasswordCommandHandler(IAuthService authService)
     {
-        _userRepository = userRepository;
+        _authService = authService;
     }
 
     public async Task<Result> Handle(ChangePasswordCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.FindById(command.UserId);
+        var user = await _authService.FindById(command.UserId);
         if (user is null)
         {
             return Result.Fail(new UserNotFoundError());
         }
-        var response = await _userRepository.UpdatePasswordAsync(user.Id, command.CurrentPassword, command.NewPassword);
+        var response = await _authService.UpdatePasswordAsync(user.Id, command.CurrentPassword, command.NewPassword);
         return response;
     }
 }

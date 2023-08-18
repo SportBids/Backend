@@ -28,6 +28,12 @@
 
     <ItemGroup>
       <Folder Include="Persistence\Migrations\SQLite\" />
+      <Folder Include="Persistence\Entities\" />
+      <Folder Include="Persistence\Repositories\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Persistence\Entities\" />
+      <None Remove="Persistence\Repositories\" />
+    </ItemGroup>
 </Project>

@@ -1,10 +1,10 @@
 ﻿using Mapster;
 using SportBids.Application.Authentication.Commands.SignUp;
 using SportBids.Application.Authentication.Common;
-using SportBids.Contracts.Account.SignIn;
 using SportBids.Contracts.Account.SignUp;
+using SportBids.Contracts.Authentication.SignIn;
 using SportBids.Domain.Models;
-using SportBids.Infrastructure;
+using SportBids.Infrastructure.Persistence.Entities;
 
 namespace SportBids.Api.Common.Mapping;
 

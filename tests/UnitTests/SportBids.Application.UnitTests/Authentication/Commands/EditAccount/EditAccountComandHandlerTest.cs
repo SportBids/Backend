@@ -6,7 +6,7 @@ using Moq;
 using SportBids.Application.Accounts.Commands.EditAccount;
 using SportBids.Application.Accounts.Commands.UpdateAccount;
 using SportBids.Application.Common.Errors;
-using SportBids.Application.Interfaces.Persistence;
+using SportBids.Application.Interfaces.Services;
 using SportBids.Domain.Models;
 
 namespace SportBids.Application.UnitTests.Authentication.Commands.EditAccount;
@@ -17,7 +17,7 @@ public class EditAccountComandHandlerTest
     [Theory, AutoMoqData]
     public async Task HandleEditAccountCommand_WhenCommandIsValid_ShouldReturnOk(
         EditAccountCommand command,
-        [Frozen] Mock<IUserRepository> userRepositoryMock,
+        [Frozen] Mock<IAuthService> authServiceMock,
         [Frozen] Mock<IMapper> mapperMock,
         EditAccountCommandHandler sut
     )
@@ -25,10 +25,10 @@ public class EditAccountComandHandlerTest
         // Arrange
         User modifiedUser = new User();
         User foundUser = new User { Id = command.UserId };
-        userRepositoryMock
+        authServiceMock
             .Setup(x => x.FindById(command.UserId))
             .ReturnsAsync(foundUser);
-        userRepositoryMock
+        authServiceMock
             .Setup(x => x.UpdateAsync(It.IsAny<User>()))
             .Callback<User>(u => modifiedUser = u);
         mapperMock
@@ -44,7 +44,7 @@ public class EditAccountComandHandlerTest
         var response = await sut.Handle(command, default);
 
         // Assert
-        userRepositoryMock
+        authServiceMock
             .Verify(x => x.UpdateAsync(It.IsAny<User>()), Times.Once);
         modifiedUser.Id.Should().Be(command.UserId);
         modifiedUser.FirstName.Should().Be(command.FirstName);
@@ -55,13 +55,13 @@ public class EditAccountComandHandlerTest
     [Theory, AutoMoqData]
     public async Task HandleEditAccountCommand_WhenCommandIsValid_ShouldReturnUserNotFound(
         EditAccountCommand command,
-        [Frozen] Mock<IUserRepository> userRepositoryMock,
+        [Frozen] Mock<IAuthService> authServiceMock,
         EditAccountCommandHandler sut
     )
     {
         // Arrange
         User foundUser = null!;
-        userRepositoryMock
+        authServiceMock
             .Setup(x => x.FindById(command.UserId))
             .ReturnsAsync(foundUser);
 
@@ -69,7 +69,7 @@ public class EditAccountComandHandlerTest
         var response = await sut.Handle(command, default);
 
         // Assert
-        userRepositoryMock
+        authServiceMock
             .Verify(x => x.UpdateAsync(It.IsAny<User>()), Times.Never);
         response.IsSuccess.Should().BeFalse();
         response.Errors.Should().HaveCount(1)
