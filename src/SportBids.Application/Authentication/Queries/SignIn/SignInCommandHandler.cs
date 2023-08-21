@@ -28,8 +28,14 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, Result<AuthRe
             return Result.Fail<AuthResult>(new SignInError());
 
         var response = _mapper.Map<AuthResult>(user);
+
+        var refreshToken = _jwtFactory.GenerateRefreshToken(request.IPAddress);
+        user.RefreshTokens.Add(refreshToken);
+
         response.AccessToken = _jwtFactory.GenerateAccessToken(user.Id);
-        response.RefreshToken = _jwtFactory.GenerateRefreshToken();
+        response.RefreshToken = refreshToken.Token;
+
+        await _authService.UpdateAsync(user);
 
         return Result.Ok(response);
     }

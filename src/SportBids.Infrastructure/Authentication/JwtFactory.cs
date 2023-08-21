@@ -1,10 +1,12 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SportBids.Application.Interfaces.Authentication;
 using SportBids.Application.Interfaces.Services;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Infrastructure.Authentication;
 
@@ -27,10 +29,17 @@ public class JwtFactory : IJwtFactory
         return new JwtSecurityTokenHandler().WriteToken(securityToken);
     }
 
-    public string GenerateRefreshToken()
+    public RefreshToken GenerateRefreshToken(string IPAddress)
     {
-        var bytes = RandomNumberGenerator.GetBytes(32);
-        return Convert.ToBase64String(bytes);
+        var refreshToken = new RefreshToken
+        {
+            Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)),
+            CreatedByIp = IPAddress,
+            CreatedAt = _dateTimeProvider.UtcNow,
+            Expires = _dateTimeProvider.UtcNow.AddMinutes(_jwtSettings.RefreshTokenExpiryMinutes),
+        };
+
+        return refreshToken;
     }
 
     private SigningCredentials GetSigningCredentials()

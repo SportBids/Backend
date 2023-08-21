@@ -1,6 +1,6 @@
 using MediatR;
 using SportBids.Application.Interfaces.Services;
-using SportBids.Domain.Models;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.Authentication.Commands.SendEmailConfirmation;
 
@@ -17,18 +17,18 @@ public class SendEmailConfirmationCommandHandler : IRequestHandler<SendEmailConf
 
     public async Task Handle(SendEmailConfirmationCommand request, CancellationToken cancellationToken)
     {
-        var appUser = await _authService.FindByUsername(request.User.UserName);
+        var appUser = await _authService.FindByUsername(request.User.UserName!);
         if (appUser is null) return;
 
         var body = await GetBody(appUser);
-        var to = new[]
+        var to = new string[]
         {
-            appUser.Email
+            appUser.Email!
         };
         await _emailService.SendAsync("Email confirmation", body, to, cancellationToken);
     }
 
-    private async Task<string> GetBody(User user)
+    private async Task<string> GetBody(AppUser user)
     {
         var token = await _authService.GenerateEmailConfirmationTokenAsync(user);
         var link = "#";

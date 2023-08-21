@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SportBids.Infrastructure.Persistence.Entities;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Infrastructure.Persistence;
 

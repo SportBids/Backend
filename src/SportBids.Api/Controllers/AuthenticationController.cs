@@ -1,10 +1,10 @@
-﻿using System.Net;
+﻿using System.Security.Claims;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using SportBids.Application.Authentication.Commands.RefreshToken;
+using SportBids.Application.Authentication.Commands.RenewRefreshToken;
 using SportBids.Application.Authentication.Commands.RevokeToken;
 using SportBids.Application.Authentication.Commands.SignUp;
 using SportBids.Application.Authentication.Queries.SignIn;
@@ -33,6 +33,7 @@ public class AuthenticationController : ApiControllerBase
     public async Task<IActionResult> SignUp([FromBody] SignUpRequest request, CancellationToken cancellationToken)
     {
         var command = _mapper.Map<SignUpCommand>(request);
+        command.IPAddress = GetRemoteIpAddress() ?? "unknown IP";
         var result = await _mediatr.Send(command, cancellationToken);
         if (result.IsSuccess)
         {
@@ -48,6 +49,7 @@ public class AuthenticationController : ApiControllerBase
     public async Task<IActionResult> SignIn([FromBody] SignInRequest request, CancellationToken cancellationToken)
     {
         var command = _mapper.Map<SignInCommand>(request);
+        command.IPAddress = GetRemoteIpAddress() ?? "unknown IP";
         var result = await _mediatr.Send(command, cancellationToken);
         if (result.IsSuccess)
             return Ok(_mapper.Map<SignInResponse>(result.Value));
@@ -55,10 +57,11 @@ public class AuthenticationController : ApiControllerBase
         return ProcessError(result.Errors);
     }
 
+    [AllowAnonymous]
     [HttpPost("refresh-token")]
     public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)
     {
-        var command = _mapper.Map<RefreshTokenCommand>(request);
+        var command = _mapper.Map<RenewRefreshTokenCommand>(request);
         command.IPAddress = GetRemoteIpAddress() ?? "unknown IP";
         var result = await _mediatr.Send(command, cancellationToken);
         if (result.IsSuccess)
@@ -69,10 +72,14 @@ public class AuthenticationController : ApiControllerBase
     [HttpPost("signout")]
     public async Task<IActionResult> SignOut([FromBody] SignOutRequest request, CancellationToken cancellationToken)
     {
-        var command = _mapper.Map<RevokeTokenCommand>(request);
-        command.IPAddress = GetRemoteIpAddress() ?? "unknown IP";
-        await _mediatr.Send(command, cancellationToken);
-        return Ok();
+        var command = new RevokeTokenCommand
+        {
+            UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!),
+            IPAddress = GetRemoteIpAddress(),
+            RefreshToken = request.RefreshToken
+        };
+        var result = await _mediatr.Send(command, cancellationToken);
+        return result.IsSuccess ? Ok() : ProcessError(result.Errors);
     }
 
     private string? GetRemoteIpAddress()

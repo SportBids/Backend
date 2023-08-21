@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="Account\EditAccount\" />
+      <None Remove="Account\CreateAccount\" />
+      <None Remove="Account\ChangePassword\" />
+      <None Remove="Authentication\" />
+      <None Remove="Authentication\SignIn\" />
+      <None Remove="Authentication\RefreshToken\" />
+      <None Remove="Authentication\SignOut\" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Account\EditAccount\" />
+      <Folder Include="Account\CreateAccount\" />
+      <Folder Include="Account\ChangePassword\" />
+      <Folder Include="Authentication\" />
+      <Folder Include="Authentication\SignIn\" />
+      <Folder Include="Authentication\RefreshToken\" />
+      <Folder Include="Authentication\SignOut\" />
+    </ItemGroup>
+</Project>

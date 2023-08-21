@@ -1,7 +1,9 @@
-﻿namespace SportBids.Application.Interfaces.Authentication;
+﻿using SportBids.Domain.Entities;
+
+namespace SportBids.Application.Interfaces.Authentication;
 
 public interface IJwtFactory
 {
     string GenerateAccessToken(Guid userId);
-    string GenerateRefreshToken();
+    RefreshToken GenerateRefreshToken(string IPAddress);
 }

@@ -7,9 +7,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SportBids.Application.Interfaces.Authentication;
 using SportBids.Application.Interfaces.Services;
+using SportBids.Domain.Entities;
 using SportBids.Infrastructure.Authentication;
 using SportBids.Infrastructure.Persistence;
-using SportBids.Infrastructure.Persistence.Entities;
 using SportBids.Infrastructure.Persistence.Repositories;
 using SportBids.Infrastructure.Services;
 
