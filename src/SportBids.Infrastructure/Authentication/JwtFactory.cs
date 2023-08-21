@@ -62,8 +62,8 @@ public class JwtFactory : IJwtFactory
             issuer: _jwtSettings.Issuer,
             audience: _jwtSettings.Audience,
             claims: claims,
-            notBefore: _dateTimeProvider.UtcNow,
-            expires: _dateTimeProvider.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpiryMinutes),
+            notBefore: _dateTimeProvider.UtcNow.DateTime,
+            expires: _dateTimeProvider.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpiryMinutes).DateTime,
             signingCredentials: signingCredentials);
     }
 }
