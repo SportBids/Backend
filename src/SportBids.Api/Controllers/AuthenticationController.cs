@@ -2,9 +2,8 @@
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using SportBids.Application.Authentication.Commands.RenewRefreshToken;
+using SportBids.Application.Authentication.Commands.RenewJwt;
 using SportBids.Application.Authentication.Commands.RevokeToken;
 using SportBids.Application.Authentication.Commands.SignUp;
 using SportBids.Application.Authentication.Queries.SignIn;
@@ -35,13 +34,10 @@ public class AuthenticationController : ApiControllerBase
         var command = _mapper.Map<SignUpCommand>(request);
         command.IPAddress = GetRemoteIpAddress() ?? "unknown IP";
         var result = await _mediatr.Send(command, cancellationToken);
-        if (result.IsSuccess)
-        {
-            var response = _mapper.Map<SignUpResponse>(result.Value);
-            return Ok(response);
-        }
 
-        return ProcessError(result.Errors);
+        return result.IsSuccess
+            ? Ok(_mapper.Map<SignUpResponse>(result.Value))
+            : ProcessError(result.Errors);
     }
 
     [AllowAnonymous]
@@ -51,22 +47,22 @@ public class AuthenticationController : ApiControllerBase
         var command = _mapper.Map<SignInCommand>(request);
         command.IPAddress = GetRemoteIpAddress() ?? "unknown IP";
         var result = await _mediatr.Send(command, cancellationToken);
-        if (result.IsSuccess)
-            return Ok(_mapper.Map<SignInResponse>(result.Value));
-
-        return ProcessError(result.Errors);
+        return result.IsSuccess
+            ? Ok(_mapper.Map<SignInResponse>(result.Value))
+            : ProcessError(result.Errors);
     }
 
     [AllowAnonymous]
     [HttpPost("refresh-token")]
     public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)
     {
-        var command = _mapper.Map<RenewRefreshTokenCommand>(request);
+        var command = _mapper.Map<RenewJwtCommand>(request);
         command.IPAddress = GetRemoteIpAddress() ?? "unknown IP";
         var result = await _mediatr.Send(command, cancellationToken);
-        if (result.IsSuccess)
-            return Ok(result.Value);
-        return ProcessError(result.Errors);
+
+        return result.IsSuccess
+            ? Ok(_mapper.Map<RefreshTokenResponse>(result.Value))
+            : ProcessError(result.Errors);
     }
 
     [HttpPost("signout")]

@@ -23,15 +23,13 @@
     <None Remove="Accounts\Commands\ChangePassword\" />
     <None Remove="Interfaces\Persistence\" />
     <None Remove="Authentication\Commands\RevokeToken\" />
-    <None Remove="Models\" />
-    <None Remove="Authentication\Commands\RenewRefreshToken\" />
+    <None Remove="Authentication\Commands\RenewJwt\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Accounts\" />
     <Folder Include="Accounts\Commands\ChangePassword\" />
     <Folder Include="Interfaces\Persistence\" />
     <Folder Include="Authentication\Commands\RevokeToken\" />
-    <Folder Include="Models\" />
-    <Folder Include="Authentication\Commands\RenewRefreshToken\" />
+    <Folder Include="Authentication\Commands\RenewJwt\" />
   </ItemGroup>
 </Project>

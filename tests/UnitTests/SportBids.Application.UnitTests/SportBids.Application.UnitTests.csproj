@@ -34,9 +34,15 @@
     <ItemGroup>
       <None Remove="Authentication\Commands\ChangePassword\" />
       <None Remove="Authentication\Commands\EditAccount\" />
+      <None Remove="Authentication\Commands\RenewJwt\" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Authentication\Commands\ChangePassword\" />
       <Folder Include="Authentication\Commands\EditAccount\" />
+      <Folder Include="Authentication\Commands\RenewJwt\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 </Project>

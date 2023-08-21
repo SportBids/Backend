@@ -1,5 +1,4 @@
-﻿using System.Net;
-using FluentResults;
+﻿using FluentResults;
 using MapsterMapper;
 using MediatR;
 using SportBids.Application.Authentication.Common;
@@ -8,9 +7,9 @@ using SportBids.Application.Interfaces.Authentication;
 using SportBids.Application.Interfaces.Services;
 using SportBids.Domain.Entities;
 
-namespace SportBids.Application.Authentication.Commands.RenewRefreshToken;
+namespace SportBids.Application.Authentication.Commands.RenewJwt;
 
-public class RenewRefreshTokenCommandHandler : IRequestHandler<RenewRefreshTokenCommand, Result<AuthResult>>
+public class RenewRefreshTokenCommandHandler : IRequestHandler<RenewJwtCommand, Result<AuthResult>>
 {
     private readonly IAuthService _authService;
     private readonly IMapper _mapper;
@@ -25,20 +24,20 @@ public class RenewRefreshTokenCommandHandler : IRequestHandler<RenewRefreshToken
         _dateTimeProvider = dateTimeProvider;
     }
 
-    public async Task<Result<AuthResult>> Handle(RenewRefreshTokenCommand request, CancellationToken cancellationToken)
+    public async Task<Result<AuthResult>> Handle(RenewJwtCommand command, CancellationToken cancellationToken)
     {
-        var user = await _authService.FindUserByRefreshTokenAsync(request.RefreshToken, cancellationToken);
+        var user = await _authService.FindUserByRefreshTokenAsync(command.RefreshToken, cancellationToken);
         if (user is null)
         {
             return Result.Fail<AuthResult>(new UserNotFoundError());
         }
 
         //var refreshToken = _authService.GetRefreshToken(user, request.RefreshToken);
-        var refreshToken = user.RefreshTokens.Single(rt => rt.Token == request.RefreshToken);
+        var refreshToken = user.RefreshTokens.Single(rt => rt.Token == command.RefreshToken);
 
         if (refreshToken.IsRevoked)
         {
-            RevokeDescendantRefreshTokens(refreshToken, user, request.IPAddress, $"Attempted reuse of revoked ancestor token: {request.RefreshToken}");
+            RevokeDescendantRefreshTokens(refreshToken, user, command.IPAddress, $"Attempted reuse of revoked ancestor token: {command.RefreshToken}");
         }
 
         if (!refreshToken.IsActive)
@@ -46,7 +45,7 @@ public class RenewRefreshTokenCommandHandler : IRequestHandler<RenewRefreshToken
             return Result.Fail<AuthResult>(new BadRefreshToken());
         }
 
-        RefreshToken newRefreshToken = RotateRefreshToken(refreshToken, request.IPAddress);
+        var newRefreshToken = RotateRefreshToken(refreshToken, command.IPAddress);
 
         user.RefreshTokens.Add(newRefreshToken);
 
