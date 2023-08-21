@@ -1,14 +1,11 @@
 ﻿using FluentResults;
 using Moq;
 using SportBids.Application.Accounts.Commands.ChangePassword;
-using SportBids.Domain.Models;
 using FluentAssertions;
 using SportBids.Application.Common.Errors;
-using AutoFixture;
 using AutoFixture.Xunit2;
-using AutoFixture.AutoMoq;
-using Microsoft.AspNetCore.Mvc;
 using SportBids.Application.Interfaces.Services;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.UnitTests.Authentication.Commands.ChangePassword;
 
@@ -27,7 +24,7 @@ public class ChangePasswordCommandHandlerTest
             .ReturnsAsync(Result.Ok());
         authServiceMock
             .Setup(x => x.FindById(command.UserId))
-            .ReturnsAsync(new User { Id = command.UserId });
+            .ReturnsAsync(new AppUser { Id = command.UserId });
 
         // Act
         var result = await sut.Handle(command, default);
@@ -50,7 +47,7 @@ public class ChangePasswordCommandHandlerTest
         // Arrange
         authServiceMock
             .Setup(x => x.FindById(command.UserId))
-            .ReturnsAsync(null as User);
+            .ReturnsAsync(null as AppUser);
 
         // Act
         var result = await sut.Handle(command, default);

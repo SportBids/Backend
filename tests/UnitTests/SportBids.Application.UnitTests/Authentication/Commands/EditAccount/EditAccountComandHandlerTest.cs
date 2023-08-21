@@ -1,5 +1,4 @@
-﻿using System;
-using AutoFixture.Xunit2;
+﻿using AutoFixture.Xunit2;
 using FluentAssertions;
 using MapsterMapper;
 using Moq;
@@ -7,7 +6,7 @@ using SportBids.Application.Accounts.Commands.EditAccount;
 using SportBids.Application.Accounts.Commands.UpdateAccount;
 using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Services;
-using SportBids.Domain.Models;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.UnitTests.Authentication.Commands.EditAccount;
 
@@ -23,16 +22,16 @@ public class EditAccountComandHandlerTest
     )
     {
         // Arrange
-        User modifiedUser = new User();
-        User foundUser = new User { Id = command.UserId };
+        AppUser modifiedUser = new AppUser();
+        AppUser foundUser = new AppUser { Id = command.UserId };
         authServiceMock
             .Setup(x => x.FindById(command.UserId))
             .ReturnsAsync(foundUser);
         authServiceMock
-            .Setup(x => x.UpdateAsync(It.IsAny<User>()))
-            .Callback<User>(u => modifiedUser = u);
+            .Setup(x => x.UpdateAsync(It.IsAny<AppUser>()))
+            .Callback<AppUser>(u => modifiedUser = u);
         mapperMock
-            .Setup(x => x.Map<EditAccountCommand, User>(command, foundUser))
+            .Setup(x => x.Map<EditAccountCommand, AppUser>(command, foundUser))
             .Returns(() =>
             {
                 foundUser.LastName = command.LastName;
@@ -45,7 +44,7 @@ public class EditAccountComandHandlerTest
 
         // Assert
         authServiceMock
-            .Verify(x => x.UpdateAsync(It.IsAny<User>()), Times.Once);
+            .Verify(x => x.UpdateAsync(It.IsAny<AppUser>()), Times.Once);
         modifiedUser.Id.Should().Be(command.UserId);
         modifiedUser.FirstName.Should().Be(command.FirstName);
         modifiedUser.LastName.Should().Be(command.LastName);
@@ -60,7 +59,7 @@ public class EditAccountComandHandlerTest
     )
     {
         // Arrange
-        User foundUser = null!;
+        AppUser foundUser = null!;
         authServiceMock
             .Setup(x => x.FindById(command.UserId))
             .ReturnsAsync(foundUser);
@@ -70,7 +69,7 @@ public class EditAccountComandHandlerTest
 
         // Assert
         authServiceMock
-            .Verify(x => x.UpdateAsync(It.IsAny<User>()), Times.Never);
+            .Verify(x => x.UpdateAsync(It.IsAny<AppUser>()), Times.Never);
         response.IsSuccess.Should().BeFalse();
         response.Errors.Should().HaveCount(1)
             .And.AllBeOfType<UserNotFoundError>();

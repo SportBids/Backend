@@ -1,8 +1,8 @@
 using Moq;
 using SportBids.Application.Authentication.Commands.SendEmailConfirmation;
 using SportBids.Application.Interfaces.Services;
-using SportBids.Domain.Models;
 using SportBids.Application.UnitTests.Authentication.TestUtils;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.UnitTests.Authentication.Commands.SendEmailConfirmation;
 
@@ -23,7 +23,7 @@ public class SendEmailConfirmationComandHandlerTests
         // Arrange
         var command = new SendEmailConfirmationCommand
         {
-            User = new User
+            User = new AppUser
             {
                 Id = Guid.NewGuid(),
                 UserName = "username",

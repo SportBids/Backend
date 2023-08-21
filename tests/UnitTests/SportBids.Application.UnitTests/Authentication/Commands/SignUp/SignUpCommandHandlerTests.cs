@@ -1,4 +1,5 @@
-﻿using MapsterMapper;
+﻿using AutoFixture;
+using MapsterMapper;
 using MediatR;
 using Moq;
 using SportBids.Application.Authentication.Commands.SignUp;
@@ -7,7 +8,7 @@ using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Authentication;
 using SportBids.Application.Interfaces.Services;
 using SportBids.Application.UnitTests.Authentication.TestUtils;
-using SportBids.Domain.Models;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.UnitTests.Authentication.Commands.SignUp;
 
@@ -18,6 +19,7 @@ public class SignUpCommandHandlerTests
     private readonly Mock<IAuthService> _mockAuthService;
     private readonly Mock<IJwtFactory> _mockJwtFactory;
     private readonly Mock<ISender> _mockSender;
+    private readonly IFixture _fixture = new Fixture();
 
     public SignUpCommandHandlerTests()
     {
@@ -32,14 +34,14 @@ public class SignUpCommandHandlerTests
     public async Task HandleSignUpCommand_WhenComandIsValid_ShouldCreateUserAndReturnJwt()
     {
         // Arrange
-        var command = CreateSignUpCommandUtil.CreateCommand();
-        var user = new User() { UserName = command.UserName, Id = Guid.NewGuid() };
+        var command = _fixture.Create<SignUpCommand>();
+        var user = new AppUser() { UserName = command.UserName, Id = Guid.NewGuid() };
 
-        _mockMapper.Setup(mapper => mapper.Map<User>(command)).Returns(user);
+        _mockMapper.Setup(mapper => mapper.Map<AppUser>(command)).Returns(user);
         _mockAuthService.Create_Success_Mock(user, command.Password);
         _mockJwtFactory.GenerateTokens();
-        _mockMapper.Setup(m => m.Map<AuthResult>(It.IsAny<User>()))
-            .Returns(new AuthResult { FirstName = user.FirstName, LastName = user.LastName, UserName = user.UserName, Email = user.Email });
+        _mockMapper.Setup(m => m.Map<AuthResult>(It.IsAny<AppUser>()))
+            .Returns(new AuthResult { FirstName = user.FirstName, LastName = user.LastName, UserName = user.UserName, Email = user.Email! });
 
         // Act
         var result = await _handler.Handle(command, default);
@@ -54,10 +56,10 @@ public class SignUpCommandHandlerTests
     public async Task HandleSignUpCommand_WhenFailedCreateUser_ShouldReturnUserCreationError()
     {
         // Arrange
-        var command = CreateSignUpCommandUtil.CreateCommand();
-        var user = new User() { UserName = command.UserName, Id = Guid.NewGuid() };
+        var command = _fixture.Create<SignUpCommand>();
+        var user = new AppUser() { UserName = command.UserName, Id = Guid.NewGuid() };
 
-        _mockMapper.Setup(mapper => mapper.Map<User>(command)).Returns(user);
+        _mockMapper.Setup(mapper => mapper.Map<AppUser>(command)).Returns(user);
         _mockAuthService.Create_Failure_Mock(user, command.Password);
 
         // Act
@@ -67,6 +69,6 @@ public class SignUpCommandHandlerTests
         Assert.True(result.IsFailed);
         Assert.True(result.HasError<UserCreationError>());
 
-        _mockJwtFactory.Verify(factory => factory.GenerateRefreshToken(), Times.Never);
+        _mockJwtFactory.Verify(factory => factory.GenerateRefreshToken(It.IsAny<string>()), Times.Never);
     }
 }
