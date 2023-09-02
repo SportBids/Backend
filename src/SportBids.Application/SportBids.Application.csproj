@@ -18,4 +18,18 @@
     <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Accounts\" />
+    <None Remove="Accounts\Commands\ChangePassword\" />
+    <None Remove="Interfaces\Persistence\" />
+    <None Remove="Authentication\Commands\RevokeToken\" />
+    <None Remove="Authentication\Commands\RenewJwt\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Accounts\" />
+    <Folder Include="Accounts\Commands\ChangePassword\" />
+    <Folder Include="Interfaces\Persistence\" />
+    <Folder Include="Authentication\Commands\RevokeToken\" />
+    <Folder Include="Authentication\Commands\RenewJwt\" />
+  </ItemGroup>
 </Project>

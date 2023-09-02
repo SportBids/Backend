@@ -9,8 +9,8 @@
     <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
     <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.9" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -19,8 +19,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\SportBids.Application\SportBids.Application.csproj" />
-      <ProjectReference Include="..\SportBids.Contracts\SportBids.Contracts.csproj" />
       <ProjectReference Include="..\SportBids.Infrastructure\SportBids.Infrastructure.csproj" />
+      <ProjectReference Include="..\SportBids.Api.Contracts\SportBids.Api.Contracts.csproj">
+        <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+      </ProjectReference>
     </ItemGroup>
 
 </Project>

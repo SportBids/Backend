@@ -1,13 +1,14 @@
-﻿#nullable disable
+﻿using SportBids.Domain.Entities;
 
 namespace SportBids.Application.Authentication.Common;
 
 public class AuthResult
 {
-    public string UserName { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-    public string AccessToken { get; set; }
-    public string RefreshToken { get; set; }
+    public string UserName { get; set; } = null!;
+    public string Email { get; set; } = null!;
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+
+    public string AccessToken { get; set; } = null!;
+    public string RefreshToken { get; set; } = null!;
 }

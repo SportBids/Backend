@@ -6,8 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SportBids.Application.Interfaces.Authentication;
-using SportBids.Application.Interfaces.Persistence;
 using SportBids.Application.Interfaces.Services;
+using SportBids.Domain.Entities;
 using SportBids.Infrastructure.Authentication;
 using SportBids.Infrastructure.Persistence;
 using SportBids.Infrastructure.Persistence.Repositories;
@@ -23,7 +23,7 @@ public static class DependencyInjection
             .AddAuth(configuration);
 
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IAuthService, AuthService>();
         services.AddScoped(typeof(UserManager<AppUser>));
         services.AddScoped<IEmailService, EmailService>();
 
@@ -33,8 +33,13 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(
             options => options.UseInMemoryDatabase("InMemory"));
 
+        //services
+        //    .AddIdentity<AppUser, IdentityRole<Guid>>(
+        //        options => options.User.RequireUniqueEmail = true)
+        //    .AddEntityFrameworkStores<AppDbContext>()
+        //    .AddDefaultTokenProviders();
         services
-            .AddIdentity<AppUser, IdentityRole<Guid>>(
+            .AddIdentityCore<AppUser>(
                 options => options.User.RequireUniqueEmail = true)
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();

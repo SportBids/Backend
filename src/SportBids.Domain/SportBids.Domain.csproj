@@ -7,6 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Models\" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.10" />
   </ItemGroup>
 </Project>

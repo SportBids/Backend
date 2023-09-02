@@ -1,23 +1,23 @@
 using FluentResults;
 using MediatR;
 using SportBids.Application.Common.Errors;
-using SportBids.Application.Interfaces.Persistence;
+using SportBids.Application.Interfaces.Services;
 
 namespace SportBids.Application.Authentication.Commands.ConfirmEmail;
 
 public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, Result>
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IAuthService _authService;
 
-    public ConfirmEmailCommandHandler(IUserRepository userRepository)
+    public ConfirmEmailCommandHandler(IAuthService authService)
     {
-        _userRepository = userRepository;
+        _authService = authService;
     }
 
 
     async Task<Result> IRequestHandler<ConfirmEmailCommand, Result>.Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
     {
-        var isConfirmed = await _userRepository.ConfirmEmailAsync(request.UserId, request.Token);
+        var isConfirmed = await _authService.ConfirmEmailAsync(request.UserId, request.Token);
         if (!isConfirmed)
             return Result.Fail(new EmailConfirmationError());
 

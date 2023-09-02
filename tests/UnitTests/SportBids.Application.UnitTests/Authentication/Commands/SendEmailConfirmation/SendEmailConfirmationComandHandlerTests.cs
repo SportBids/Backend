@@ -1,20 +1,19 @@
 using Moq;
 using SportBids.Application.Authentication.Commands.SendEmailConfirmation;
-using SportBids.Application.Interfaces.Persistence;
 using SportBids.Application.Interfaces.Services;
-using SportBids.Domain.Models;
 using SportBids.Application.UnitTests.Authentication.TestUtils;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.UnitTests.Authentication.Commands.SendEmailConfirmation;
 
 public class SendEmailConfirmationComandHandlerTests
 {
-    private readonly Mock<IUserRepository> _mockUserRepository;
+    private readonly Mock<IAuthService> _mockAuthService;
     private readonly Mock<IEmailService> _mockEmailService;
 
     public SendEmailConfirmationComandHandlerTests()
     {
-        _mockUserRepository = new Mock<IUserRepository>();
+        _mockAuthService = new Mock<IAuthService>();
         _mockEmailService = new Mock<IEmailService>();
     }
 
@@ -24,16 +23,16 @@ public class SendEmailConfirmationComandHandlerTests
         // Arrange
         var command = new SendEmailConfirmationCommand
         {
-            User = new User
+            User = new AppUser
             {
                 Id = Guid.NewGuid(),
                 UserName = "username",
                 Email = "dont@email.me"
             }
         };
-        string subjectParam = null, bodyParam = null;
-        string[] toParam = null;
-        _mockUserRepository.FindByUsername_Mock(command.User.UserName, command.User);
+        string subjectParam = null!, bodyParam = null!;
+        string[] toParam = null!;
+        _mockAuthService.FindByUsername_Mock(command.User.UserName, command.User);
         _mockEmailService
             .Setup(service => service.SendAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string[]>(), It.IsAny<CancellationToken>()))
             .Callback((string subject, string body, string[] to, CancellationToken token) =>
@@ -42,7 +41,7 @@ public class SendEmailConfirmationComandHandlerTests
                 bodyParam = body;
                 toParam = to;
             });
-        var sut = new SendEmailConfirmationCommandHandler(_mockUserRepository.Object, _mockEmailService.Object);
+        var sut = new SendEmailConfirmationCommandHandler(_mockAuthService.Object, _mockEmailService.Object);
 
         // Act
         await sut.Handle(command, default);

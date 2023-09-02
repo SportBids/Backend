@@ -1,9 +1,11 @@
+#nullable disable
+
 using MediatR;
-using SportBids.Domain.Models;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.Authentication.Commands.SendEmailConfirmation;
 
 public class SendEmailConfirmationCommand : IRequest
 {
-    public User User { get; set; }
+    public AppUser User { get; set; }
 }
