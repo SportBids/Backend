@@ -27,11 +27,11 @@ public static class DependencyInjection
         services.AddScoped(typeof(UserManager<AppUser>));
         services.AddScoped<IEmailService, EmailService>();
 
-        // services.AddDbContext<AppDbContext>(
-        //     options => options.UseSqlite(
-        //         configuration.GetConnectionString("sqlite"), config => config.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
         services.AddDbContext<AppDbContext>(
-            options => options.UseInMemoryDatabase("InMemory"));
+            options => options.UseSqlite(
+                configuration.GetConnectionString("sqlite"), config => config.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
+        // services.AddDbContext<AppDbContext>(
+        //     options => options.UseInMemoryDatabase("InMemory"));
 
         //services
         //    .AddIdentity<AppUser, IdentityRole<Guid>>(
