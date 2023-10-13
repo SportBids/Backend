@@ -31,5 +31,6 @@
     <Folder Include="Interfaces\Persistence\" />
     <Folder Include="Authentication\Commands\RevokeToken\" />
     <Folder Include="Authentication\Commands\RenewJwt\" />
+    <Folder Include="Tournaments/Commands/CreateTournament/" />
   </ItemGroup>
 </Project>

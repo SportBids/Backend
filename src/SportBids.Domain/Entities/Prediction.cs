@@ -1,3 +1,5 @@
+#nullable disable
+
 using SportBids.Domain.Entities;
 namespace SportBids.Domain;
 

@@ -1,3 +1,5 @@
+#nullable disable
+
 namespace SportBids.Domain;
 
 public class Group : Entity<Guid>
