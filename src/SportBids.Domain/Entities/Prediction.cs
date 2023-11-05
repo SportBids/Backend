@@ -3,7 +3,7 @@
 using SportBids.Domain.Entities;
 namespace SportBids.Domain;
 
-public class Prediction
+public class Prediction : Entity<Guid>
 {
     public int Points { get; set; }
     public Score Score { get; set; }

@@ -3,9 +3,9 @@ using MediatR;
 using SportBids.Application.Interfaces.Persistence;
 using SportBids.Domain;
 
-namespace SportBids.Application.Tournaments.Queries;
+namespace SportBids.Application.Tournaments.Queries.GetTournaments;
 
-public class GetAllTournamentsQueryHandler : IRequestHandler<GetAllTournamentsQuery, List<Tournament>>
+public class GetAllTournamentsQueryHandler : IRequestHandler<GetAllTournamentsQuery, IEnumerable<Tournament>>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -14,7 +14,7 @@ public class GetAllTournamentsQueryHandler : IRequestHandler<GetAllTournamentsQu
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<List<Tournament>> Handle(GetAllTournamentsQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<Tournament>> Handle(GetAllTournamentsQuery request, CancellationToken cancellationToken)
     {
         var tournaments = await _unitOfWork.Tournaments.GetAllAsync(cancellationToken);
         return tournaments;

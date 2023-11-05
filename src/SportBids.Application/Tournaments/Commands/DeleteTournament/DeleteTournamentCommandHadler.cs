@@ -16,12 +16,15 @@ public class DeleteTournamentCommandHadler : IRequestHandler<DeleteTournamentCom
     public async Task<Result> Handle(DeleteTournamentCommand command, CancellationToken cancellationToken)
     {
         var tournament = await _unitOfWork.Tournaments.GetByIdAsync(command.Id, cancellationToken);
+        if (tournament is null)
+            return Result.Fail(new TournamentNotFoundError(command.Id));
+
         if (tournament.IsPublic)
         {
-            return Result.Fail("Cannot remove public tournament");
+            return Result.Fail(new TournamentReadOnlyError(tournament.Id));
         }
         _unitOfWork.Tournaments.Delete(tournament);
-        await _unitOfWork.SaveAsync();
+        await _unitOfWork.SaveAsync(cancellationToken);
         return Result.Ok();
     }
 }

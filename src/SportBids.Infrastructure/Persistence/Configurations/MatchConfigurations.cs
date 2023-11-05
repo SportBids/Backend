@@ -8,8 +8,8 @@ public class MatchConfigurations : IEntityTypeConfiguration<Match>
 {
     public void Configure(EntityTypeBuilder<Match> builder)
     {
-        builder
-            .OwnsOne(match => match.Score);
+        // builder
+        //     .OwnsOne(match => match.Score);
     }
 }
 

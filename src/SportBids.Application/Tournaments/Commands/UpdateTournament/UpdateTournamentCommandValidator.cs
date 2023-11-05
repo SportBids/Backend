@@ -3,9 +3,9 @@
 namespace SportBids.Application.Tournaments.Commands.UpdateTournament;
 
 
-public class UpdateTournamentCommandValidation : AbstractValidator<UpdateTournamentCommand>
+public class UpdateTournamentCommandValidator : AbstractValidator<UpdateTournamentCommand>
 {
-    public UpdateTournamentCommandValidation()
+    public UpdateTournamentCommandValidator()
     {
         RuleFor(command => command.Name)
             .NotEmpty()

@@ -3,11 +3,12 @@ namespace SportBids.Application.Interfaces.Persistence;
 
 public interface IUnitOfWork
 {
-    ITournamentRepository Tournaments { get; set; }
-    IMatchRepository Matches { get; set; }
-    ITeamRepository Teams { get; set; }
-    IPredictionRepository Predictions { get; set; }
+    ITournamentRepository Tournaments { get; }
+    IGroupRepository Groups { get; }
+    IMatchRepository Matches { get; }
+    ITeamRepository Teams { get; }
+    IPredictionRepository Predictions { get; }
 
     void Save();
-    Task SaveAsync();
+    Task SaveAsync(CancellationToken cancellationToken);
 }

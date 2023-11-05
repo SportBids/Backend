@@ -8,7 +8,7 @@ public class Tournament : Entity<Guid>
     public DateTimeOffset FinishAt { get; set; }
     public ICollection<Team> Teams { get; set; } = null!;
     public ICollection<Group> Groups { get; set; } = null!;
-    public ICollection<Match>? KnockOutMatches { get; set; }
+    public ICollection<Match> KnockOutMatches { get; set; } = null!;
 
     public bool IsFinished => FinishAt < DateTimeOffset.Now;
 }

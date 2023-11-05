@@ -29,7 +29,9 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
             .SelectMany(validationResult => validationResult.Errors)
             .Where(validationFailure => validationFailure is not null)
             .Select(failure => new { failure.PropertyName, failure.ErrorMessage })
-            .ToArray();
+            .GroupBy(failure => failure.PropertyName)
+            // .ToArray();
+            .ToDictionary(g => g.Key, g => (object)(g.Select(e => e.ErrorMessage).ToArray()));
 
         if (!validationErrors.Any())
         {
@@ -38,10 +40,12 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
 
         var result = new TResponse();
         var error = new ValidationError();
-        foreach (var validationError in validationErrors)
-        {
-            error.WithMetadata(validationError.PropertyName, validationError.ErrorMessage);
-        }
+        // foreach (var validationError in validationErrors)
+        // {
+        //     error.WithMetadata((validationError.PropertyName, validationError.ErrorMessage);
+        // }
+        error.WithMetadata(validationErrors);
+
 
         result.Reasons.Add(error);
 

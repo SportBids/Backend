@@ -20,15 +20,17 @@ public class UpdateTournamentCommandHandler : IRequestHandler<UpdateTournamentCo
     public async Task<Result<Guid>> Handle(UpdateTournamentCommand command, CancellationToken cancellationToken)
     {
         var tournamentEntity = await _unitOfWork.Tournaments.GetByIdAsync(command.Id, cancellationToken);
+        if (tournamentEntity is null)
+            return Result.Fail(new TournamentNotFoundError(command.Id));
 
         if (tournamentEntity.IsPublic)
         {
-            return Result.Fail("Cannot update public tournament");
+            return Result.Fail(new TournamentReadOnlyError(tournamentEntity.Id));
         }
 
         _mapper.Map(command, tournamentEntity);
         _unitOfWork.Tournaments.Update(tournamentEntity);
-        await _unitOfWork.SaveAsync();
+        await _unitOfWork.SaveAsync(cancellationToken);
 
         return Result.Ok(tournamentEntity.Id);
     }

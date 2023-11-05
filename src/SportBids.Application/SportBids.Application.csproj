@@ -32,5 +32,6 @@
     <Folder Include="Authentication\Commands\RevokeToken\" />
     <Folder Include="Authentication\Commands\RenewJwt\" />
     <Folder Include="Tournaments/Commands/CreateTournament/" />
+    <Folder Include="Tournaments/Queries/GetTournaments/" />
   </ItemGroup>
 </Project>

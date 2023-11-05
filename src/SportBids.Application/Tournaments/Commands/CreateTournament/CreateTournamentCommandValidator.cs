@@ -4,9 +4,9 @@ using FluentValidation;
 
 namespace SportBids.Application.Tournaments.Commands.CreateTournament;
 
-public class CreateTournamentCommandValidation : AbstractValidator<CreateTournamentCommand>
+public class CreateTournamentCommandValidator : AbstractValidator<CreateTournamentCommand>
 {
-    public CreateTournamentCommandValidation()
+    public CreateTournamentCommandValidator()
     {
         RuleFor(command => command.Name)
             .NotEmpty()

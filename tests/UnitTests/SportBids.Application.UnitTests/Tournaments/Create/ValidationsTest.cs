@@ -9,7 +9,7 @@ public class ValidationsTest
     private readonly AbstractValidator<CreateTournamentCommand> _sut;
     public ValidationsTest()
     {
-        _sut = new CreateTournamentCommandValidation();
+        _sut = new CreateTournamentCommandValidator();
     }
 
     [Fact]

@@ -8,8 +8,8 @@ public class PredictionConfigurations : IEntityTypeConfiguration<Prediction>
 {
     public void Configure(EntityTypeBuilder<Prediction> builder)
     {
-        builder
-            .OwnsOne(prediction => prediction.Score);
+        // builder
+        //     .OwnsOne(prediction => prediction.Score);
 
         builder
             .HasKey(prediction => new { prediction.MatchId, prediction.OwnerId });

@@ -29,7 +29,7 @@ public class CreateTournamentCommandHandler : IRequestHandler<CreateTournamentCo
         };
 
         _unitOfWork.Tournaments.Add(tournament);
-        await _unitOfWork.SaveAsync();
+        await _unitOfWork.SaveAsync(cancellationToken);
         return tournament.Id;
     }
 

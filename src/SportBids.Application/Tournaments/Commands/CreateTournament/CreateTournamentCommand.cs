@@ -5,6 +5,9 @@ using MediatR;
 
 namespace SportBids.Application.Tournaments.Commands.CreateTournament;
 
+/// <summary>
+/// Creates a tournament
+/// </summary>
 public class CreateTournamentCommand : IRequest<Result<Guid>>
 {
     public string Name { get; set; }

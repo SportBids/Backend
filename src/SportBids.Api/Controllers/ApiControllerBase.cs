@@ -17,9 +17,14 @@ public abstract class ApiControllerBase : ControllerBase
             var modelStateDictionary = new ModelStateDictionary();
             foreach (var keyValuePair in errors.SelectMany(error => error.Metadata))
             {
-                modelStateDictionary.AddModelError(
-                    keyValuePair.Key,
-                    keyValuePair.Value.ToString() ?? string.Empty);
+                // modelStateDictionary.AddModelError(
+                //     keyValuePair.Key,
+                //     keyValuePair.Value.ToString() ?? string.Empty);
+                var values = keyValuePair.Value as string[] ?? new[]{""};
+                foreach (var value in values)
+                {
+                    modelStateDictionary.AddModelError(keyValuePair.Key, value);
+                }
             }
 
             return ValidationProblem(modelStateDictionary);
