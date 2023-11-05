@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SportBids.Application.Interfaces.Authentication;
+using SportBids.Application.Interfaces.Persistence;
 using SportBids.Application.Interfaces.Services;
 using SportBids.Domain.Entities;
 using SportBids.Infrastructure.Authentication;
@@ -20,7 +21,8 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager configuration)
     {
         services
-            .AddAuth(configuration);
+            .AddAuth(configuration)
+            .AddRepositories();
 
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddScoped<IAuthService, AuthService>();
@@ -76,5 +78,27 @@ public static class DependencyInjection
                     };
                 });
         return services;
+    }
+
+    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        services
+            .AddScoped<IUnitOfWork, UnitOfWork>()
+            .AddScoped<ITournamentRepository, TournamentRepository>()
+            .AddScoped<IGroupRepository, GroupRepository>()
+            .AddScoped<ITeamRepository, TeamRepository>()
+            .AddScoped<IPredictionRepository, PredictionRepository>()
+            .AddScoped<IMatchRepository, MatchRepository>()
+            .AddScoped(typeof(Lazy<>), typeof(LazyInstance<>));
+
+        return services;
+    }
+}
+
+internal class LazyInstance<T> : Lazy<T> where T : class
+{
+    public LazyInstance(IServiceProvider provider)
+        : base(() => provider.GetRequiredService<T>())
+    {
     }
 }
