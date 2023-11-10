@@ -26,11 +26,14 @@ public class CreateGroupMatchesCommandHandler : IRequestHandler<CreateGroupMatch
         }
 
         if (tournament.IsPublic)
-            return Result.Fail("Tournament is public already!");
-        if (!tournament.Teams.Any())
-            return Result.Fail("Teams not found!");
+            return Result.Fail(new TournamentReadOnlyError(tournament.Id));
+
         if (!tournament.Groups.Any())
             return Result.Fail("Groups not found!");
+
+        if (HasGroupsMissingTeams(tournament, out var errors))
+            return Result.Fail(errors);
+
 
         foreach (var group in tournament.Groups)
         {
@@ -39,6 +42,22 @@ public class CreateGroupMatchesCommandHandler : IRequestHandler<CreateGroupMatch
         }
         await _unitOfWork.SaveAsync(cancellationToken);
         return Result.Ok();
+    }
+
+    private bool HasGroupsMissingTeams(Tournament tournament, out IEnumerable<IError> errors)
+    {
+        var groupsMissingTeams = tournament
+            .Groups
+            .Where(group => group.Teams is null || group.Teams.Count < 2)
+            .ToArray();
+
+        if (groupsMissingTeams.Length > 0)
+        {
+            errors = groupsMissingTeams.Select(group => new GroupTeamsMissingError(group.Name));
+            return true;
+        }
+        errors = Array.Empty<IError>();
+        return false;
     }
 
     private void CreateGroupMatches(Group group)

@@ -1,4 +1,5 @@
-﻿using FluentResults;
+﻿using System.Text;
+using FluentResults;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -38,12 +39,27 @@ public abstract class ApiControllerBase : ControllerBase
             BadRequestError => StatusCodes.Status400BadRequest,
             _ => StatusCodes.Status500InternalServerError
         };
-        var errorMessage = firstError.Message;
-        if (firstError.Metadata.Count > 0)
+        // var errorMessage = firstError.Message;
+        // if (firstError.Metadata.Count > 0)
+        // {
+        //     errorMessage += firstError.Metadata.Select(metadata => metadata.Value.ToString())
+        //         .Aggregate(" ", (s, s1) => string.Concat(s, " ", s1));
+        // }
+
+        var errorMessage = errors.Select(e =>
         {
-            errorMessage += firstError.Metadata.Select(metadata => metadata.Value.ToString())
-                .Aggregate(" ", (s, s1) => string.Concat(s, " ", s1));
-        }
+            var sb = new StringBuilder();
+            sb.Append(e.Message);
+            if (e.Metadata.Count > 0)
+            {
+                sb.Append("(");
+                foreach (var mdv in e.Metadata.Values)
+                    sb.AppendLine(mdv.ToString());
+                sb.AppendLine(")");
+            }
+            else sb.AppendLine();
+            return sb.ToString();
+        }).Aggregate((a, b) => string.Concat(a, b));
 
         return Problem(statusCode: statusCode, title: errorMessage);
     }
