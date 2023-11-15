@@ -46,9 +46,10 @@ public class CreateGroupMatchesCommandHandler : IRequestHandler<CreateGroupMatch
 
     private bool HasGroupsMissingTeams(Tournament tournament, out IEnumerable<IError> errors)
     {
+        var teamsPerGroup = tournament.Teams.Count / tournament.Groups.Count;
         var groupsMissingTeams = tournament
             .Groups
-            .Where(group => group.Teams is null || group.Teams.Count < 2)
+            .Where(group => group.Teams is null || group.Teams.Count != teamsPerGroup)
             .ToArray();
 
         if (groupsMissingTeams.Length > 0)
