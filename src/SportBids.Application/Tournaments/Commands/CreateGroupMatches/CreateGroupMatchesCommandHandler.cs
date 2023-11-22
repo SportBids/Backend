@@ -63,14 +63,13 @@ public class CreateGroupMatchesCommandHandler : IRequestHandler<CreateGroupMatch
 
     private void CreateGroupMatches(Group group)
     {
-        var newMatches = group.Teams.Zip(
-            second: group.Teams.Skip(1),
-            resultSelector: CreateMatch);
-
-        foreach (var match in newMatches)
-        {
-            group.Matches.Add(match);
-        }
+        var teams = group.Teams.ToArray();
+        for (int i = 0; i < teams.Length; i++)
+            for (int j = i + 1; j < teams.Length; j++)
+            {
+                var match = CreateMatch(teams[i], teams[j]);
+                group.Matches.Add(match);
+            }
     }
 
     private Match CreateMatch(Team f, Team s)
