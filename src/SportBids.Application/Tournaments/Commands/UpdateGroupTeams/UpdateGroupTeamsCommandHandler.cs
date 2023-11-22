@@ -33,9 +33,9 @@ public class UpdateGroupTeamsCommandHandler : IRequestHandler<UpdateGroupTeamsCo
         if (notFoundTeamIds.Any())
             return Result.Fail(notFoundTeamIds.Select(id => new TeamNotFoundError(id)));
 
+        group.Teams.Clear();
         foreach (var team in teams)
         {
-            // team.Group = group;
             group.Teams.Add(team);
         }
 
