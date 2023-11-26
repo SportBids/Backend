@@ -64,8 +64,10 @@ public abstract class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, T
         return await _context.Set<TEntity>().Where(entity => ids.Contains(entity.Id)).ToListAsync(cancellationToken);
     }
 
-    // protected IQueryable GetAllWhere(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
-    // {
-    //     return _context.Set<TEntity>().Where(predicate);
-    // }
+    protected IQueryable<TEntity> FindWhere(Expression<Func<TEntity, bool>> predicate)
+    {
+        return _context
+            .Set<TEntity>()
+            .Where(predicate);
+    }
 }

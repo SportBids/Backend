@@ -13,8 +13,8 @@ public class Prediction : Entity<Guid>
 
     public Guid OwnerId { get; set; }
     public AppUser Owner { get; set; }
-    // public Guid CreatedById { get; set; }
+    public Guid CreatedById { get; set; }
 
-    public DateTime CreatedAt { get; set; }
-    public DateTime ModifiedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset ModifiedAt { get; set; }
 }

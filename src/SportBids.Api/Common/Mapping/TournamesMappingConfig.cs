@@ -4,7 +4,7 @@ using SportBids.Domain;
 
 namespace SportBids.Api.Common.Mapping;
 
-public class TournamesMappingConfig : IRegister
+public class TournamentsMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {

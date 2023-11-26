@@ -1,4 +1,6 @@
-﻿namespace SportBids.Api.Contracts.Tournament.GetTournament;
+﻿#nullable disable
+
+namespace SportBids.Api.Contracts.Tournament.GetTournament;
 
 public class GetTournamentResponse
 {

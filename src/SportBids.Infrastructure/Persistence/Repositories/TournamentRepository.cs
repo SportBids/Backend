@@ -10,10 +10,20 @@ public class TournamentRepository : RepositoryBase<Tournament, Guid>, ITournamen
     {
     }
 
+    public async Task<IEnumerable<Tournament>> GetAsync(CancellationToken cancellationToken)
+    {
+        return await GetAllAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<Tournament>> GetPublicOnlyAsync(CancellationToken cancellationToken)
+    {
+        return await FindWhere(t => t.IsPublic == true)
+            .ToListAsync();
+    }
+
     public async Task<Tournament?> GetTournamentFullInfo(Guid tournamentId, CancellationToken cancellationToken)
     {
-        var entity = await _context.Set<Tournament>()
-            .Where(tournament => tournament.Id == tournamentId)
+        var entity = await FindWhere(tournament => tournament.Id == tournamentId)
             .Include(tournament => tournament.Teams)
             .Include(tournament => tournament.KnockOutMatches)
             .Include(tournament => tournament.Groups)
@@ -24,8 +34,7 @@ public class TournamentRepository : RepositoryBase<Tournament, Guid>, ITournamen
 
     public async Task<Tournament?> GetTournamentMatchesAndTeamsAsync(Guid tournamentId, CancellationToken cancellationToken)
     {
-        var entity = await _context.Set<Tournament>()
-            .Where(tournament => tournament.Id == tournamentId)
+        var entity = await FindWhere(tournament => tournament.Id == tournamentId)
             .Include(tournament => tournament.Teams)
             .Include(tournament => tournament.KnockOutMatches)
             .SingleOrDefaultAsync(cancellationToken);
@@ -34,8 +43,7 @@ public class TournamentRepository : RepositoryBase<Tournament, Guid>, ITournamen
 
     public async Task<Tournament?> GetTournamentWithGroupsMatchesAndTeamsAsync(Guid tournamentId, CancellationToken cancellationToken)
     {
-        var entity = await _context.Set<Tournament>()
-            .Where(tournament => tournament.Id == tournamentId)
+        var entity = await FindWhere(tournament => tournament.Id == tournamentId)
             .Include(tournament => tournament.Teams)
             .Include(tournament => tournament.Groups)
                 .ThenInclude(group => group.Matches)

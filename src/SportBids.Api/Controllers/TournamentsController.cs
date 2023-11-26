@@ -40,9 +40,14 @@ public class TournamentsController : ApiControllerBase
     /// Get all tournaments
     /// </summary>
     [HttpGet]
-    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    public async Task<IActionResult> Get([FromQuery] GetTournamentsRequest request, CancellationToken cancellationToken)
     {
-        var query = new GetAllTournamentsQuery();
+        var query = new GetTournamentsQuery()
+        {
+            IncludeNonPublic = request.IncludeNonPublic
+                // && User.HasClaim()
+                && true
+        };
         var tournaments = await _mediatr.Send(query, cancellationToken);
         var response = new GetTournamentsResponse
         {

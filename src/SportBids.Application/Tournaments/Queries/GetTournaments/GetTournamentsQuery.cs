@@ -4,7 +4,7 @@ using SportBids.Domain;
 
 namespace SportBids.Application.Tournaments.Queries.GetTournaments;
 
-public class GetAllTournamentsQuery : IRequest<IEnumerable<Tournament>>
+public class GetTournamentsQuery : IRequest<IEnumerable<Tournament>>
 {
-
+    public bool IncludeNonPublic { get; set; }
 }
