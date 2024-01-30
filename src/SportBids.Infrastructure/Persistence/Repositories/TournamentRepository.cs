@@ -28,6 +28,8 @@ public class TournamentRepository : RepositoryBase<Tournament, Guid>, ITournamen
             .Include(tournament => tournament.KnockOutMatches)
             .Include(tournament => tournament.Groups)
                 .ThenInclude(group => group.Matches)
+            .Include(tournament => tournament.Groups)
+                .ThenInclude(group => group.Teams)
             .SingleOrDefaultAsync(cancellationToken);
         return entity;
     }

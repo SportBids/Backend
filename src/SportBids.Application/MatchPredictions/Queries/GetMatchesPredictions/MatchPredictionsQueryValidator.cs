@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace SportBids.Application;
+namespace SportBids.Application.MatchPredictions.Queries.GetMatchesPredictions;
 
 public class MatchPredictionsQueryValidator : AbstractValidator<MatchPredictionsQuery>
 {

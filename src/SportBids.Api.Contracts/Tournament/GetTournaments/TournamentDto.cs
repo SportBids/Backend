@@ -1,6 +1,6 @@
 namespace SportBids.Api.Contracts.Tournament.GetTournaments;
 
-public class GetTournamentsTournamentDto
+public class TournamentDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = null!;

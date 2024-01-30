@@ -31,8 +31,8 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, Result<AuthRe
 
         var refreshToken = _jwtFactory.GenerateRefreshToken(request.IPAddress);
         user.RefreshTokens.Add(refreshToken);
-
-        response.AccessToken = _jwtFactory.GenerateAccessToken(user.Id);
+        var userClaims = await _authService.GetClaimsAsync(user);
+        response.AccessToken = _jwtFactory.GenerateAccessToken(user, userClaims);
         response.RefreshToken = refreshToken.Token;
 
         await _authService.UpdateAsync(user);

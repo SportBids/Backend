@@ -1,4 +1,5 @@
-﻿using AutoFixture;
+﻿using System.Security.Claims;
+using AutoFixture;
 using MapsterMapper;
 using Moq;
 using SportBids.Application.Authentication.Queries.SignIn;
@@ -39,7 +40,7 @@ public class SignInCommandHandlerTests
         Assert.True(result.IsFailed);
         Assert.IsAssignableFrom<SignInError>(result.Errors.FirstOrDefault());
         Assert.Equal("Wrong username or password", result.Errors.FirstOrDefault()?.Message);
-        _mockJwtFactory.Verify(factory => factory.GenerateAccessToken(It.IsAny<Guid>()), Times.Never);
+        _mockJwtFactory.Verify(factory => factory.GenerateAccessToken(It.IsAny<AppUser>(), It.IsAny<IList<Claim>>()), Times.Never);
         _mockJwtFactory.Verify(factory => factory.GenerateRefreshToken(It.IsAny<string>()), Times.Never);
     }
 
@@ -60,7 +61,7 @@ public class SignInCommandHandlerTests
         Assert.True(result.IsFailed);
         Assert.IsAssignableFrom<SignInError>(result.Errors.FirstOrDefault());
         Assert.Equal("Wrong username or password", result.Errors.FirstOrDefault()?.Message);
-        _mockJwtFactory.Verify(factory => factory.GenerateAccessToken(It.IsAny<Guid>()), Times.Never);
+        _mockJwtFactory.Verify(factory => factory.GenerateAccessToken(It.IsAny<AppUser>(), It.IsAny<IList<Claim>>()), Times.Never);
         _mockJwtFactory.Verify(factory => factory.GenerateRefreshToken(It.IsAny<string>()), Times.Never);
     }
 }

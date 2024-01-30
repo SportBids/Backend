@@ -34,13 +34,13 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, Result<AuthRe
         }
 
         var createdUser = createUserResponse.Value;
-
+        var userClaims = await _authService.GetClaimsAsync(createdUser);
         var response = _mapper.Map<AuthResult>(createdUser);
 
         var refreshToken = _jwtFactory.GenerateRefreshToken(request.IPAddress);
         user.RefreshTokens.Add(refreshToken);
 
-        response.AccessToken = _jwtFactory.GenerateAccessToken(createdUser.Id);
+        response.AccessToken = _jwtFactory.GenerateAccessToken(createdUser, userClaims);
         response.RefreshToken = refreshToken.Token;
 
         await _authService.UpdateAsync(user);

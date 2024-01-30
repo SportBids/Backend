@@ -7,7 +7,7 @@ using SportBids.Domain.Entities;
 
 namespace SportBids.Infrastructure.Persistence;
 
-public class AppDbContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
+public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
 {
     public AppDbContext(DbContextOptions options) : base(options)
     {

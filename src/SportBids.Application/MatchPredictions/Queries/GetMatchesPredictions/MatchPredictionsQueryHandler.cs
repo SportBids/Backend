@@ -3,7 +3,7 @@ using MediatR;
 using SportBids.Application.Interfaces.Persistence;
 using SportBids.Domain;
 
-namespace SportBids.Application;
+namespace SportBids.Application.MatchPredictions.Queries.GetMatchesPredictions;
 
 public class MatchPredictionsQueryHandler : IRequestHandler<MatchPredictionsQuery, Result<IEnumerable<Prediction>>>
 {
@@ -18,7 +18,7 @@ public class MatchPredictionsQueryHandler : IRequestHandler<MatchPredictionsQuer
     {
         var predictions = await _unitOfWork
             .Predictions
-            .GetOwnPredictionsByMatchId(request.MatchIds, request.OwnerId, cancellationToken);
+            .GetOwnPredictionsByMatchIdAsync(request.MatchIds, request.OwnerId, cancellationToken);
         return Result.Ok(predictions);
     }
 }

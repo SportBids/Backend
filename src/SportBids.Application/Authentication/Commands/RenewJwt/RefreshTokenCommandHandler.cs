@@ -54,7 +54,8 @@ public class RenewRefreshTokenCommandHandler : IRequestHandler<RenewJwtCommand, 
         await _authService.UpdateAsync(user);
 
         var authResult = _mapper.Map<AuthResult>(user);
-        authResult.AccessToken = _jwtFactory.GenerateAccessToken(user.Id);
+        var userClaims = await _authService.GetClaimsAsync(user);
+        authResult.AccessToken = _jwtFactory.GenerateAccessToken(user, userClaims);
         authResult.RefreshToken = newRefreshToken.Token;
 
         return Result.Ok(authResult);

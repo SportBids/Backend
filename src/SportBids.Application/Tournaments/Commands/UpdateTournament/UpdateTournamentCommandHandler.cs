@@ -23,10 +23,10 @@ public class UpdateTournamentCommandHandler : IRequestHandler<UpdateTournamentCo
         if (tournamentEntity is null)
             return Result.Fail(new TournamentNotFoundError(command.Id));
 
-        if (tournamentEntity.IsPublic)
-        {
-            return Result.Fail(new TournamentReadOnlyError(tournamentEntity.Id));
-        }
+        // if (tournamentEntity.IsPublic)
+        // {
+        //     return Result.Fail(new TournamentReadOnlyError(tournamentEntity.Id));
+        // }
 
         _mapper.Map(command, tournamentEntity);
         _unitOfWork.Tournaments.Update(tournamentEntity);

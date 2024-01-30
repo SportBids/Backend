@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using SportBids.Application.Interfaces.Authentication;
 using SportBids.Application.Interfaces.Persistence;
 using SportBids.Application.Interfaces.Services;
+using SportBids.Domain;
 using SportBids.Domain.Entities;
 using SportBids.Infrastructure.Authentication;
 using SportBids.Infrastructure.Persistence;
@@ -43,6 +44,7 @@ public static class DependencyInjection
         services
             .AddIdentityCore<AppUser>(
                 options => options.User.RequireUniqueEmail = true)
+            .AddRoles<AppRole>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 

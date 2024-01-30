@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using SportBids.Api.Contracts.MatchPrediction;
 using SportBids.Api.Contracts.MatchPrediction.CreateUpdate;
 using SportBids.Api.Contracts.MatchPrediction.Get;
-using SportBids.Application;
+using SportBids.Application.MatchPredictions.Commands.CreateUpdate;
+using SportBids.Application.MatchPredictions.Queries.GetMatchesPredictions;
+using SportBids.Application.MatchPredictions.Queries.GetMatchesWithPredictions;
 using SportBids.Domain;
 
 namespace SportBids.Api.Controllers;
@@ -20,6 +22,16 @@ public class PredictionsController : ApiControllerBase
     {
         _mediatr = mediatr;
         _mapper = mapper;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetMatchesWithPrediction(CancellationToken cancellationToken)
+    {
+        if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
+            return BadRequest();
+        var query = new MatchesWithPredictionQuery { UserId = userId };
+        var result = await _mediatr.Send(query, cancellationToken);
+        return Ok(_mapper.Map<IEnumerable<MatchWithPredictionDto>>(result.Value));
     }
 
     [HttpPut]

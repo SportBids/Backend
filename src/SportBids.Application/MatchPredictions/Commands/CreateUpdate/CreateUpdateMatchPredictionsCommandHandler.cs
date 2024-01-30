@@ -1,10 +1,9 @@
 using FluentResults;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using SportBids.Application.Interfaces.Persistence;
 using SportBids.Application.Interfaces.Services;
 
-namespace SportBids.Application;
+namespace SportBids.Application.MatchPredictions.Commands.CreateUpdate;
 
 public class CreateUpdateMatchPredictionsCommandHandler : IRequestHandler<CreateUpdateMatchPredictionsCommand, Result>
 {
@@ -26,14 +25,14 @@ public class CreateUpdateMatchPredictionsCommandHandler : IRequestHandler<Create
         var matchIds = command
             .Predictions
             .Select(p => p.MatchId);
-        if (await HasFinishedMatches(matchIds, cancellationToken))
+        if (await HasStartedMatches(matchIds, cancellationToken))
         {
-            return new PredictionOnFinishedMatchError();
+            return new PredictionOnStartedMatchError();
         }
 
         var savedPredictions = await _unitOfWork
             .Predictions
-            .GetOwnPredictionsByMatchId(matchIds, command.OwnerId, cancellationToken);
+            .GetOwnPredictionsByMatchIdAsync(matchIds, command.OwnerId, cancellationToken);
         var savedPredictionsDict = savedPredictions.ToDictionary(item => item.MatchId, item => item);
 
         var now = _dateTimeProvider.UtcNow;
@@ -61,9 +60,9 @@ public class CreateUpdateMatchPredictionsCommandHandler : IRequestHandler<Create
         return Result.Ok();
     }
 
-    private async Task<bool> HasFinishedMatches(IEnumerable<Guid> matchIds, CancellationToken cancellationToken)
+    private async Task<bool> HasStartedMatches(IEnumerable<Guid> matchIds, CancellationToken cancellationToken)
     {
         var c = await _unitOfWork.Matches.GetByIdAsync(matchIds.ToArray(), cancellationToken);
-        return c.Any(match => match.Finished);
+        return c.Any(match => match.Finished || match.StartAt <= _dateTimeProvider.UtcNow);
     }
 }

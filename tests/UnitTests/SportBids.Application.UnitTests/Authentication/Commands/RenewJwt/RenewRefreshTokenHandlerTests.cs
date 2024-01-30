@@ -68,6 +68,7 @@ public class RenewRefreshTokenHandlerTests
                                     )
                             )
                         )
+                        .Without(user => user.Predictions)
                         .Create());
 
         // Act
@@ -107,6 +108,7 @@ public class RenewRefreshTokenHandlerTests
                                     )
                             )
                         )
+                        .Without(user => user.Predictions)
                         .Create());
 
         // Act
@@ -146,6 +148,7 @@ public class RenewRefreshTokenHandlerTests
             .ReturnsAsync(
                 _fixture.Build<AppUser>()
                         .With(user => user.RefreshTokens, refreshTokenList)
+                        .Without(user => user.Predictions)
                         .Create());
 
         dateTimeProvider.Setup(dt => dt.UtcNow).Returns(DateTimeOffset.UtcNow);
@@ -183,6 +186,7 @@ public class RenewRefreshTokenHandlerTests
             .ReturnsAsync(
                 _fixture.Build<AppUser>()
                         .With(user => user.RefreshTokens, refreshTokenList)
+                        .Without(user => user.Predictions)
                         .Create());
 
         AppUser savedUser = null!;

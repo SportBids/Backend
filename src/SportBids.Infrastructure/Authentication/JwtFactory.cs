@@ -21,9 +21,9 @@ public class JwtFactory : IJwtFactory
         _jwtSettings = jwtSettingsOptions.Value;
     }
 
-    public string GenerateAccessToken(Guid userId)
+    public string GenerateAccessToken(AppUser user, IEnumerable<Claim> userClaims)
     {
-        var claims = GetClaims(userId);
+        var claims = GetClaims(user.Id);
         var signingCredentials = GetSigningCredentials();
         var securityToken = GetSecurityToken(claims, signingCredentials);
         return new JwtSecurityTokenHandler().WriteToken(securityToken);

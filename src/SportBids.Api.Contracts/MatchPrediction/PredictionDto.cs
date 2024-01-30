@@ -8,4 +8,5 @@ public class PredictionDto
 {
     public Guid MatchId { get; set; }
     public ScoreDto Score { get; set; }
+    public int Points { get; set; }
 }

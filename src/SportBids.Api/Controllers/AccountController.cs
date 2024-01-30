@@ -4,6 +4,7 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SportBids.Api.Contracts;
 using SportBids.Application.Accounts.Commands.ChangePassword;
 using SportBids.Application.Accounts.Commands.EditAccount;
 using SportBids.Application.Authentication.Commands.ConfirmEmail;
@@ -55,7 +56,7 @@ public class AccountController : ApiControllerBase
     }
 
     [HttpPut("changePass")]
-    public async Task<IActionResult> EditPassord([FromBody] ChangePasswordRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> EditPassword([FromBody] ChangePasswordRequest request, CancellationToken cancellationToken)
     {
         var command = _mapper.Map<ChangePasswordCommand>(request);
         command.UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
@@ -67,5 +68,11 @@ public class AccountController : ApiControllerBase
         }
 
         return Ok();
+    }
+
+    [HttpGet("list")]
+    public async Task<IActionResult> ListUsers(CancellationToken cancellationToken)
+    {
+        return Ok(new ListAccountsResponse());
     }
 }

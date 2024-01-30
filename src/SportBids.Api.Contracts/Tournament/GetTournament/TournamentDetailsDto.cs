@@ -2,7 +2,7 @@
 
 namespace SportBids.Api.Contracts.Tournament.GetTournament;
 
-public class GetTournamentResponse
+public class TournamentDetailsDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = null!;

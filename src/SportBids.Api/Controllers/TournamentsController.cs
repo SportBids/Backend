@@ -51,7 +51,7 @@ public class TournamentsController : ApiControllerBase
         var tournaments = await _mediatr.Send(query, cancellationToken);
         var response = new GetTournamentsResponse
         {
-            Tournaments = _mapper.Map<IEnumerable<GetTournamentsTournamentDto>>(tournaments)
+            Tournaments = _mapper.Map<IEnumerable<TournamentDetailsDto>>(tournaments)
         };
         return Ok(response);
     }
@@ -84,7 +84,7 @@ public class TournamentsController : ApiControllerBase
         {
             return ProcessError(result.Errors);
         }
-        var tournament = _mapper.Map<GetTournamentResponse>(result.Value);
+        var tournament = _mapper.Map<TournamentDetailsDto>(result.Value);
         return Ok(tournament);
     }
 

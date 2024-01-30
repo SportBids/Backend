@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace SportBids.Application;
+namespace SportBids.Application.MatchPredictions.Commands.CreateUpdate;
 
 public class CreateUpdateMatchPredictionsCommandValidator : AbstractValidator<CreateUpdateMatchPredictionsCommand>
 {

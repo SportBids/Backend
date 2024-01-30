@@ -1,9 +1,10 @@
-﻿using SportBids.Domain.Entities;
+﻿using System.Security.Claims;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.Interfaces.Authentication;
 
 public interface IJwtFactory
 {
-    string GenerateAccessToken(Guid userId);
+    string GenerateAccessToken(AppUser user, IEnumerable<Claim> userClaims);
     RefreshToken GenerateRefreshToken(string IPAddress);
 }

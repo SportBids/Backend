@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "Integra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportBids.Api.Contracts", "src\SportBids.Api.Contracts\SportBids.Api.Contracts.csproj", "{D1DE6F8B-49C2-419C-9691-57C7A19822C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportBids.Infrastructure.UnitTests", "tests\UnitTests\SportBids.Infrastructure.UnitTests\SportBids.Infrastructure.UnitTests.csproj", "{28B68A8A-DAD0-46C2-B286-1431D0452722}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{D1DE6F8B-49C2-419C-9691-57C7A19822C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1DE6F8B-49C2-419C-9691-57C7A19822C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1DE6F8B-49C2-419C-9691-57C7A19822C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28B68A8A-DAD0-46C2-B286-1431D0452722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28B68A8A-DAD0-46C2-B286-1431D0452722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28B68A8A-DAD0-46C2-B286-1431D0452722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28B68A8A-DAD0-46C2-B286-1431D0452722}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,5 +75,6 @@ Global
 		{B5E42D13-8230-4EFA-8961-3DEA7A629DFD} = {13278BE9-56DE-4F88-9634-8EA7A313393D}
 		{121FF663-0DEC-49EE-A011-CC2225941CD6} = {E93507B6-7896-4A6F-B3D5-3A575C5F45E9}
 		{D1DE6F8B-49C2-419C-9691-57C7A19822C5} = {3219DB10-251A-47B8-B6E0-258A0D21E0CD}
+		{28B68A8A-DAD0-46C2-B286-1431D0452722} = {13278BE9-56DE-4F88-9634-8EA7A313393D}
 	EndGlobalSection
 EndGlobal

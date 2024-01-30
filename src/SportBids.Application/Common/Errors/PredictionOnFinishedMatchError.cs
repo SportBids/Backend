@@ -2,9 +2,9 @@ using SportBids.Application.Common.Errors;
 
 namespace SportBids.Application;
 
-public class PredictionOnFinishedMatchError : BadRequestError
+public class PredictionOnStartedMatchError : BadRequestError
 {
-    public PredictionOnFinishedMatchError() : base("Set prediction on finished matches not allowed!")
+    public PredictionOnStartedMatchError() : base("Set prediction on started matches not allowed!")
     {
     }
 }

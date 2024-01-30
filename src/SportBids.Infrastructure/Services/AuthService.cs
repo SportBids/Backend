@@ -1,4 +1,5 @@
-﻿using FluentResults;
+﻿using System.Security.Claims;
+using FluentResults;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -69,6 +70,11 @@ public class AuthService : IAuthService
     {
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         return token;
+    }
+
+    public async Task<IList<Claim>> GetClaimsAsync(AppUser user)
+    {
+        return await _userManager.GetClaimsAsync(user);
     }
 
     //public RefreshToken GetRefreshToken(AppUser user, string refreshToken)

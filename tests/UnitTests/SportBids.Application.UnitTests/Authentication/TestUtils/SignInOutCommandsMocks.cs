@@ -1,4 +1,5 @@
-﻿using FluentResults;
+﻿using System.Security.Claims;
+using FluentResults;
 using Moq;
 using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Authentication;
@@ -44,7 +45,7 @@ public static class SignInOutCommandsMocks
     public static Mock<IJwtFactory> GenerateTokens(this Mock<IJwtFactory> mock)
     {
         mock
-            .Setup(factory => factory.GenerateAccessToken(It.IsAny<Guid>()))
+            .Setup(factory => factory.GenerateAccessToken(It.IsAny<AppUser>(), It.IsAny<IList<Claim>>()))
             .Returns(new string('x', 55));
         mock
             .Setup(factory => factory.GenerateRefreshToken(It.IsAny<string>()))

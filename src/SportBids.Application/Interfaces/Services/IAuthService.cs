@@ -1,4 +1,5 @@
-﻿using FluentResults;
+﻿using System.Security.Claims;
+using FluentResults;
 using SportBids.Domain.Entities;
 
 namespace SportBids.Application.Interfaces.Services;
@@ -14,4 +15,5 @@ public interface IAuthService
     Task<AppUser> UpdateAsync(AppUser user);
     Task<Result> UpdatePasswordAsync(Guid userId, string currentPassword, string newPassword);
     Task<AppUser?> FindUserByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken);
+    Task<IList<Claim>> GetClaimsAsync(AppUser user);
 }

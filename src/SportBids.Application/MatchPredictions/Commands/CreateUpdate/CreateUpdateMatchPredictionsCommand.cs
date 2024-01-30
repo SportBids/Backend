@@ -4,7 +4,7 @@ using FluentResults;
 using MediatR;
 using SportBids.Domain;
 
-namespace SportBids.Application;
+namespace SportBids.Application.MatchPredictions.Commands.CreateUpdate;
 
 public class CreateUpdateMatchPredictionsCommand : IRequest<Result>
 {
