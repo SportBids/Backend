@@ -1,5 +1,6 @@
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SportBids.Api.Contracts.Tournament.CreateGroupMatches;
 using SportBids.Api.Contracts.Tournament.CreateMatch;
@@ -60,6 +61,7 @@ public class TournamentsController : ApiControllerBase
     /// Create tournament
     /// </summary>
     [HttpPost]
+    [Authorize(Policy = "adminOrModerator")]
     public async Task<IActionResult> Create([FromBody] CreateTournamentRequest request,
                                             CancellationToken cancellationToken)
     {
@@ -89,6 +91,7 @@ public class TournamentsController : ApiControllerBase
     }
 
     [HttpPut("{tournamentId}")]
+    [Authorize(Policy = "adminOrModerator")]
     public async Task<IActionResult> Update([FromRoute] Guid tournamentId,
                                             [FromBody] UpdateTournamentRequest request,
                                             CancellationToken cancellationToken)
@@ -103,6 +106,7 @@ public class TournamentsController : ApiControllerBase
     }
 
     [HttpDelete("{tournamentId}")]
+    [Authorize(Policy = "adminOrModerator")]
     public async Task<IActionResult> Delete([FromRoute] Guid tournamentId,
                                             CancellationToken cancellationToken)
     {
@@ -114,6 +118,7 @@ public class TournamentsController : ApiControllerBase
     }
 
     [HttpPut("{tournamentId}/groups/{groupId}")]
+    [Authorize(Policy = "adminOrModerator")]
     public async Task<IActionResult> UpdateTeamsInGroup([FromRoute] Guid tournamentId,
                                                     [FromRoute] Guid groupId,
                                                     [FromBody] UpdateGroupTeamsRequest request,
@@ -129,6 +134,7 @@ public class TournamentsController : ApiControllerBase
     }
 
     [HttpPut("{tournamentId}/teams/{teamId}")]
+    [Authorize(Policy = "adminOrModerator")]
     public async Task<IActionResult> UpdateTeam([FromRoute] Guid tournamentId,
                                                 [FromRoute] Guid teamId,
                                                 [FromBody] UpdateTeamRequest request,
@@ -142,6 +148,7 @@ public class TournamentsController : ApiControllerBase
     }
 
     [HttpPut("{tournamentId}/matches/{matchId}")]
+    [Authorize(Policy = "adminOrModerator")]
     public async Task<IActionResult> UpdateMatch([FromRoute] Guid tournamentId,
                                                 [FromRoute] Guid matchId,
                                                 [FromBody] UpdateMatchRequest request,
@@ -155,6 +162,7 @@ public class TournamentsController : ApiControllerBase
     }
 
     [HttpPost("{tournamentId}/createGroupMatches")]
+    [Authorize(Policy = "adminOrModerator")]
     public async Task<IActionResult> CreateGroupMatches([FromRoute] Guid tournamentId,
                                                         [FromBody] CreateGroupMatchesRequest request,
                                                         CancellationToken cancellationToken)
@@ -169,6 +177,7 @@ public class TournamentsController : ApiControllerBase
     }
 
     [HttpPost("{tournamentId}/matches")]
+    [Authorize(Policy = "adminOrModerator")]
     public async Task<IActionResult> CreateMatch([FromRoute] Guid tournamentId,
                                                  [FromBody] CreateMatchRequest request,
                                                  CancellationToken cancellationToken)
@@ -183,6 +192,7 @@ public class TournamentsController : ApiControllerBase
     }
 
     [HttpDelete("{tournamentId}/matches/{matchId}")]
+    [Authorize(Policy = "adminOrModerator")]
     public async Task<IActionResult> DeleteKnockoutMatch([FromRoute] DeleteKnockOutMatchRequest request,
                                                          CancellationToken cancellationToken)
     {
