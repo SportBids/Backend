@@ -1,7 +1,9 @@
-﻿using FluentResults;
+﻿using System.Security.Claims;
+using FluentResults;
 using SportBids.Api;
 using SportBids.Api.Extensions;
 using SportBids.Application;
+using SportBids.Domain.Entities;
 using SportBids.Infrastructure;
 
 internal class Program
@@ -19,6 +21,14 @@ internal class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         // builder.Services.AddEndpointsApiExplorer();
         // builder.Services.AddSwaggerGen();
+
+        builder.Services.AddAuthorization(configure =>
+        {
+            configure.AddPolicy("adminOnly",
+                                policy => policy.RequireClaim(ClaimTypes.Role, UserClaims.Administrator.ToString()));
+            configure.AddPolicy("adminOrModerator",
+                                policy => policy.RequireClaim(ClaimTypes.Role, UserClaims.Administrator.ToString(), UserClaims.Moderator.ToString()));
+        });
 
         var app = builder.Build();
 
