@@ -31,7 +31,7 @@ class DBSeeder : IDBInitializer
         if (claimAdditionResult.IsFailed)
             throw new Exception(claimAdditionResult.Errors.First().Message);
 
-        Console.WriteLine($"Initial user created with username='{user.UserName}' and password '${pass}'");
+        Console.WriteLine($"Initial user created with username='{user.UserName}' and password '{pass}'");
     }
 
     private string RandomPassword(int length)
