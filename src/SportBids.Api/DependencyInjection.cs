@@ -19,6 +19,7 @@ public static class DependencyInjection
                     .AllowAnyHeader();
             });
         });
+        services.AddScoped<IDBInitializer, DBSeeder>();
         return services;
     }
 

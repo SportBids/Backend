@@ -20,6 +20,12 @@ public class AuthService : IAuthService
         _mapper = mapper;
     }
 
+    public async Task<Result> AddUserClaimsAsync(AppUser user, IEnumerable<Claim> claims)
+    {
+        var identityResult = await _userManager.AddClaimsAsync(user, claims);
+        return identityResult.Succeeded ? Result.Ok() : Result.Fail(identityResult.Errors.Select(e => e.Description).Aggregate((a, b) => string.Join(" ", a, b)));
+    }
+
     public async Task<bool> ConfirmEmailAsync(Guid userId, string emailConfirmationToken)
     {
         var appUser = await _userManager.FindByIdAsync(userId.ToString());
@@ -93,6 +99,11 @@ public class AuthService : IAuthService
             return null;
 
         return appUser;
+    }
+
+    public async Task<int> GetUsersCountAsync()
+    {
+        return await _userManager.Users.CountAsync();
     }
 
     public async Task<AppUser> UpdateAsync(AppUser user)

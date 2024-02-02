@@ -70,10 +70,9 @@ public class RenewRefreshTokenCommandHandler : IRequestHandler<RenewJwtCommand, 
             if (childToken is null)
                 return;
 
-            if (childToken.IsActive)
+            if (!childToken.IsRevoked)
                 RevokeRefreshToken(childToken, ipAddress, reason);
-            else
-                RevokeDescendantRefreshTokens(childToken, user, ipAddress, reason);
+            RevokeDescendantRefreshTokens(childToken, user, ipAddress, reason);
         }
     }
 

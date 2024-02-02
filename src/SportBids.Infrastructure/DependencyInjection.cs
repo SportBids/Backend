@@ -44,7 +44,7 @@ public static class DependencyInjection
         services
             .AddIdentityCore<AppUser>(
                 options => options.User.RequireUniqueEmail = true)
-            .AddRoles<AppRole>()
+            //.AddRoles<AppRole>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 
