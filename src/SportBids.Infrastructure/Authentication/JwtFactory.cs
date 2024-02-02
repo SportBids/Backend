@@ -23,7 +23,7 @@ public class JwtFactory : IJwtFactory
 
     public string GenerateAccessToken(AppUser user, IEnumerable<Claim> userClaims)
     {
-        var claims = GetClaims(user.Id);
+        var claims = GetClaims(user.Id).Concat(userClaims).ToArray();
         var signingCredentials = GetSigningCredentials();
         var securityToken = GetSecurityToken(claims, signingCredentials);
         return new JwtSecurityTokenHandler().WriteToken(securityToken);
