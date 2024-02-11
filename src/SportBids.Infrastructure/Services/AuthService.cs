@@ -1,30 +1,114 @@
 ﻿using System.Security.Claims;
 using FluentResults;
-using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SportBids.Application.Common.Errors;
+using SportBids.Application.Common.Models;
 using SportBids.Application.Interfaces.Services;
+using SportBids.Domain;
 using SportBids.Domain.Entities;
 
-namespace SportBids.Infrastructure.Persistence.Repositories;
+namespace SportBids.Infrastructure.Services;
 
 public class AuthService : IAuthService
 {
-    private readonly IMapper _mapper;
     private readonly UserManager<AppUser> _userManager;
 
-    public AuthService(UserManager<AppUser> userManager, IMapper mapper)
+    public AuthService(UserManager<AppUser> userManager)
     {
         _userManager = userManager;
-        _mapper = mapper;
     }
 
+    public async Task<Result> AddUserClaimsAsync(Guid userId, IEnumerable<Claim> claims)
+    {
+        var user = await FindById(userId);
+        if (user is null)
+            return Result.Fail(new UserNotFoundError());
+
+        return await AddUserClaimsAsync(user, claims);
+    }
+    
     public async Task<Result> AddUserClaimsAsync(AppUser user, IEnumerable<Claim> claims)
     {
         var identityResult = await _userManager.AddClaimsAsync(user, claims);
-        return identityResult.Succeeded ? Result.Ok() : Result.Fail(identityResult.Errors.Select(e => e.Description).Aggregate((a, b) => string.Join(" ", a, b)));
+        return identityResult.Succeeded
+            ? Result.Ok()
+            : Result.Fail(identityResult.Errors.Select(e => e.Description));
     }
+
+    public async Task<Result> RemoveUserClaimsAsync(Guid userId, IEnumerable<string> claimTypes)
+    {
+        var user = await FindById(userId);
+        if (user is null)
+            return Result.Fail(new UserNotFoundError());
+
+        return await RemoveUserClaimsAsync(user, claimTypes);
+    }
+    
+    public async Task<Result> RemoveUserClaimsAsync(AppUser user, IEnumerable<string> claimTypes)
+    {
+        var userClaims = await _userManager.GetClaimsAsync(user);
+        var claimsToRemove = userClaims.Where(c => claimTypes.Contains(c.Type));
+        var identityResult = await _userManager.RemoveClaimsAsync(user, claimsToRemove);
+
+        return identityResult.Succeeded
+            ? Result.Ok()
+            : Result.Fail(identityResult.Errors.Select(e => e.Description));
+    }
+
+    public async Task<IEnumerable<AccountModel>> GetUsersAsync(CancellationToken cancellationToken)
+    {
+        var users = await _userManager
+            .Users
+            .ToListAsync(cancellationToken);
+        var admins = await _userManager
+            .GetUsersForClaimAsync(new Claim(ClaimTypes.Role, UserRoles.Administrator.ToString()));
+
+        var moderators = await _userManager
+            .GetUsersForClaimAsync(new Claim(ClaimTypes.Role, UserRoles.Moderator.ToString()));
+
+        var accounts = users
+            .Select(
+                user => new AccountModel
+                {
+                    Id = user.Id,
+                    UserName = user.UserName ?? string.Empty,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Role = admins.Contains(user)
+                        ? UserRoles.Administrator.ToString()
+                        : moderators.Contains(user)
+                            ? UserRoles.Moderator.ToString()
+                            : string.Empty
+                })
+            .ToList();
+        return accounts;
+    }
+
+
+    // public async Task<Result> SetUserRoleAsync(Guid userId, UserClaims role, CancellationToken cancellationToken)
+    // {
+    //     var user = await _userManager.FindByIdAsync(userId.ToString());
+    //
+    //     if (user is null)
+    //         return Result.Fail(new UserNotFoundError());
+    //
+    //     var currentRoles = await _userManager.GetClaimsAsync(user);
+    //     if (currentRoles.Any(x => x.Type == ClaimTypes.Role && x.Value == role.ToString()))
+    //         return Result.Ok();
+    //
+    //     if (currentRoles.Count > 0)
+    //     {
+    //         var r = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+    //         if (!r.Succeeded)
+    //             return Result.Fail(r.Errors.Select(e => e.Description).ToArray());
+    //     }
+    //
+    //     var result = await _userManager.AddToRoleAsync(user, role.ToString());
+    //     return result.Succeeded
+    //         ? Result.Ok()
+    //         : Result.Fail(result.Errors.Select(e => e.Description).ToArray());
+    // }
 
     public async Task<bool> ConfirmEmailAsync(Guid userId, string emailConfirmationToken)
     {
@@ -108,7 +192,7 @@ public class AuthService : IAuthService
 
     public async Task<AppUser> UpdateAsync(AppUser user)
     {
-        var result = await _userManager.UpdateAsync(user);
+        _ = await _userManager.UpdateAsync(user);
         return user;
     }
 

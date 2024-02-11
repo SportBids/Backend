@@ -5,11 +5,16 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SportBids.Api.Contracts;
+using SportBids.Api.Contracts.Account.ListAccounts;
+using SportBids.Api.Contracts.Account.SetUserRole;
 using SportBids.Application.Accounts.Commands.ChangePassword;
 using SportBids.Application.Accounts.Commands.EditAccount;
+using SportBids.Application.Accounts.Commands.SetUserRole;
+using SportBids.Application.Accounts.Queries.GetAccounts;
 using SportBids.Application.Authentication.Commands.ConfirmEmail;
 using SportBids.Contracts.Account.ChangePassword;
 using SportBids.Contracts.Account.EditAccount;
+using SportBids.Domain;
 
 namespace SportBids.Api.Controllers;
 
@@ -70,9 +75,27 @@ public class AccountController : ApiControllerBase
         return Ok();
     }
 
-    [HttpGet("list")]
+    [HttpGet]
+    [Authorize(Policy = "adminOnly")]
     public async Task<IActionResult> ListUsers(CancellationToken cancellationToken)
     {
-        return Ok(new ListAccountsResponse());
+        var query = new GetAccountsQuery();
+        var accounts = await _mediatr.Send(query, cancellationToken);
+        var response = new ListAccountsResponse { Accounts = _mapper.Map<IEnumerable<AccountDto>>(accounts) };
+        return Ok(response);
+    }
+    
+    [HttpPut("{userId:Guid}")]
+    [Authorize(Policy = "adminOnly")]
+    public async Task<IActionResult> SetUserRole(Guid userId, UserRoleDto dto, CancellationToken cancellationToken)
+    {
+        UserRoles role = UserRoles.User;
+        if (userId != dto.UserId || (!string.IsNullOrWhiteSpace(dto.Role) && !Enum.TryParse<UserRoles>(dto.Role, out role)))
+            return BadRequest();
+        
+        var query = new SetUserRoleCommand { UserId = userId, Role = role };
+        var result = await _mediatr.Send(query, cancellationToken);
+
+        return result.IsSuccess ? Ok() : ProcessError(result.Errors);
     }
 }

@@ -1,6 +1,5 @@
-﻿using SportBids.Api.Contracts.Account.ListAccounts;
-
-namespace SportBids.Api.Contracts;
+﻿#nullable disable
+namespace SportBids.Api.Contracts.Account.ListAccounts;
 
 public class ListAccountsResponse
 {
