@@ -12,14 +12,16 @@ using SportBids.Api.Contracts.Tournament.UpdateGroupTeams;
 using SportBids.Api.Contracts.Tournament.UpdateMatch;
 using SportBids.Api.Contracts.Tournament.UpdateTeam;
 using SportBids.Api.Contracts.Tournament.UpdateTournament;
-using SportBids.Application;
 using SportBids.Application.Tournaments.Commands.CreateGroupMatches;
 using SportBids.Application.Tournaments.Commands.CreateMatch;
 using SportBids.Application.Tournaments.Commands.CreateTournament;
 using SportBids.Application.Tournaments.Commands.DeleteKnockoutMatch;
 using SportBids.Application.Tournaments.Commands.DeleteTournament;
 using SportBids.Application.Tournaments.Commands.UpdateGroupTeams;
+using SportBids.Application.Tournaments.Commands.UpdateMatch;
+using SportBids.Application.Tournaments.Commands.UpdateTeam;
 using SportBids.Application.Tournaments.Commands.UpdateTournament;
+using SportBids.Application.Tournaments.Queries.GetTournament;
 using SportBids.Application.Tournaments.Queries.GetTournaments;
 
 namespace SportBids.Api.Controllers;

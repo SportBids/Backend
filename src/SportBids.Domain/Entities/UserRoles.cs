@@ -1,10 +1,10 @@
-﻿namespace SportBids.Domain;
+﻿namespace SportBids.Domain.Entities;
 
 public enum UserRoles
 {
     User,
     Moderator,
-    Administrator,
+    Administrator
 }
 
 // public static class UserRoles

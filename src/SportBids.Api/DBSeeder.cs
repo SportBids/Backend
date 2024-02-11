@@ -2,7 +2,8 @@
 using SportBids.Domain.Entities;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using SportBids.Domain;
+
+namespace SportBids.Api;
 
 class DBSeeder : IDBInitializer
 {

@@ -1,6 +1,4 @@
-﻿using SportBids.Domain.Entities;
-
-namespace SportBids.Application.Authentication.Common;
+﻿namespace SportBids.Application.Authentication.Common;
 
 public class AuthResult
 {

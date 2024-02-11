@@ -2,7 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace SportBids.Contracts.Account.EditAccount;
+namespace SportBids.Api.Contracts.Account.EditAccount;
 
 public class EditAccountRequest
 {

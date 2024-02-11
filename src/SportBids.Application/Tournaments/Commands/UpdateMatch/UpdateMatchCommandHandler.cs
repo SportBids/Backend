@@ -1,11 +1,12 @@
 using FluentResults;
 using MapsterMapper;
 using MediatR;
+using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Persistence;
 using SportBids.Application.Interfaces.PredictionScorePoints;
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 
-namespace SportBids.Application;
+namespace SportBids.Application.Tournaments.Commands.UpdateMatch;
 
 public class UpdateMatchCommandHandler : IRequestHandler<UpdateMatchCommand, Result>
 {

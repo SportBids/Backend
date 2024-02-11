@@ -2,9 +2,9 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace SportBids.Contracts.Authentication.SignIn;
+namespace SportBids.Api.Contracts.Authentication.SignIn;
 
-public record SignInRequest()
+public record SignInRequest
 {
     [Required(AllowEmptyStrings = false)]
     public string UserName { get; init; }

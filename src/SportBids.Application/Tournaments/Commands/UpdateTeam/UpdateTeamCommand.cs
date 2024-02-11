@@ -1,7 +1,7 @@
 ﻿using FluentResults;
 using MediatR;
 
-namespace SportBids.Application;
+namespace SportBids.Application.Tournaments.Commands.UpdateTeam;
 
 public class UpdateTeamCommand : IRequest<Result>
 {

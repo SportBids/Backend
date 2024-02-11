@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SportBids.Contracts.Authentication.SignOut;
+namespace SportBids.Api.Contracts.Authentication.SignOut;
 
 public class SignOutRequest
 {

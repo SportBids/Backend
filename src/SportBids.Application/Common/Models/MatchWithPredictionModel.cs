@@ -1,6 +1,6 @@
 #nullable disable
 
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.Common.Models;
 

@@ -1,5 +1,5 @@
 ﻿using SportBids.Application.Interfaces.PredictionScorePoints;
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.Services;
 

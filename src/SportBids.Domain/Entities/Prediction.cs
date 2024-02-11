@@ -1,7 +1,6 @@
 #nullable disable
 
-using SportBids.Domain.Entities;
-namespace SportBids.Domain;
+namespace SportBids.Domain.Entities;
 
 public class Prediction : Entity<Guid>
 {

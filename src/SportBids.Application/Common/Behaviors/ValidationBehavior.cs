@@ -1,6 +1,5 @@
 ﻿using FluentResults;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using MediatR;
 using SportBids.Application.Common.Errors;
 
@@ -17,7 +16,10 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
         _validators = validators;
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(
+        TRequest request,
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         if (!_validators.Any())
             return await next();
@@ -31,9 +33,9 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
             .Select(failure => new { failure.PropertyName, failure.ErrorMessage })
             .GroupBy(failure => failure.PropertyName)
             // .ToArray();
-            .ToDictionary(g => g.Key, g => (object)(g.Select(e => e.ErrorMessage).ToArray()));
+            .ToDictionary(g => g.Key, g => (object)g.Select(e => e.ErrorMessage).ToArray());
 
-        if (!validationErrors.Any())
+        if (validationErrors.Count == 0)
         {
             return await next();
         }

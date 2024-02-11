@@ -2,6 +2,7 @@
 using SportBids.Application.MatchPredictions.ScorePointCalculators;
 using SportBids.Application.Services;
 using SportBids.Domain;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.UnitTests.ScorePointCalculators;
 

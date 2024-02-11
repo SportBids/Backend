@@ -2,7 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace SportBids.Contracts.Account.SignUp;
+namespace SportBids.Api.Contracts.Account.CreateAccount;
 
 public class SignUpRequest
 {

@@ -2,7 +2,6 @@ using FluentResults;
 using MediatR;
 using SportBids.Application.Common.Models;
 using SportBids.Application.Interfaces.Persistence;
-using SportBids.Domain;
 
 namespace SportBids.Application.MatchPredictions.Queries.GetMatchesWithPredictions;
 

@@ -3,7 +3,7 @@
 using FluentResults;
 using MediatR;
 using SportBids.Application.Interfaces.Persistence;
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.Tournaments.Commands.CreateTournament;
 
@@ -25,7 +25,7 @@ public class CreateTournamentCommandHandler : IRequestHandler<CreateTournamentCo
             StartAt = command.StartAt,
             FinishAt = command.FinishAt,
             Groups = CreateGroups(command.NumberOfGroups),
-            Teams = CreateTeams(command.NumberOfTeams),
+            Teams = CreateTeams(command.NumberOfTeams)
         };
 
         _unitOfWork.Tournaments.Add(tournament);
@@ -39,10 +39,7 @@ public class CreateTournamentCommandHandler : IRequestHandler<CreateTournamentCo
 
         var teams = Enumerable
             .Range(1, numberOfTeams)
-            .Select(index => new Team
-            {
-                Name = string.Format("Team {0}", index)
-            })
+            .Select(index => new Team { Name = string.Format("Team {0}", index) })
             .ToList();
         return teams;
     }

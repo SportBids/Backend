@@ -1,8 +1,6 @@
 ﻿#nullable disable
 
-using SportBids;
-
-namespace SportBids.Contracts.Account.EditAccount;
+namespace SportBids.Api.Contracts.Account.EditAccount;
 
 public class EditAccountResponse
 {

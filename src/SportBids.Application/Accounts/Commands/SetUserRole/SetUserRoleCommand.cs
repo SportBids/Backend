@@ -1,6 +1,6 @@
 ﻿using FluentResults;
 using MediatR;
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.Accounts.Commands.SetUserRole;
 

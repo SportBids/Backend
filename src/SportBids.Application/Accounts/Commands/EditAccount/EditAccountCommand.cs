@@ -2,7 +2,6 @@
 
 using FluentResults;
 using MediatR;
-using SportBids.Application.Authentication.Common;
 using SportBids.Domain.Entities;
 
 namespace SportBids.Application.Accounts.Commands.EditAccount;

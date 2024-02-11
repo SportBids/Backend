@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace SportBids.Application;
+namespace SportBids.Application.Tournaments.Commands.UpdateTeam;
 
 public class UpdateTeamCommandValidator : AbstractValidator<UpdateTeamCommand>
 {

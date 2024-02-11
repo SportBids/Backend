@@ -1,13 +1,9 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.InMemory.Query.Internal;
+﻿using Microsoft.EntityFrameworkCore;
 using SportBids.Application.Common.Models;
 using SportBids.Application.Interfaces.Persistence;
-using SportBids.Domain;
-using SportBids.Infrastructure.Persistence;
-using SportBids.Infrastructure.Persistence.Repositories;
+using SportBids.Domain.Entities;
 
-namespace SportBids.Infrastructure;
+namespace SportBids.Infrastructure.Persistence.Repositories;
 
 public class PredictionRepository : RepositoryBase<Prediction, Guid>, IPredictionRepository
 {

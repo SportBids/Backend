@@ -3,14 +3,14 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SportBids.Api.Contracts.Account.CreateAccount;
+using SportBids.Api.Contracts.Authentication.RefreshToken;
+using SportBids.Api.Contracts.Authentication.SignIn;
+using SportBids.Api.Contracts.Authentication.SignOut;
 using SportBids.Application.Authentication.Commands.RenewJwt;
 using SportBids.Application.Authentication.Commands.RevokeToken;
 using SportBids.Application.Authentication.Commands.SignUp;
 using SportBids.Application.Authentication.Queries.SignIn;
-using SportBids.Contracts.Account.SignUp;
-using SportBids.Contracts.Authentication.RefreshToken;
-using SportBids.Contracts.Authentication.SignIn;
-using SportBids.Contracts.Authentication.SignOut;
 
 namespace SportBids.Api.Controllers;
 

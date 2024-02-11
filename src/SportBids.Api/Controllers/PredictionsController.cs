@@ -8,7 +8,7 @@ using SportBids.Api.Contracts.MatchPrediction.Get;
 using SportBids.Application.MatchPredictions.Commands.CreateUpdate;
 using SportBids.Application.MatchPredictions.Queries.GetMatchesPredictions;
 using SportBids.Application.MatchPredictions.Queries.GetMatchesWithPredictions;
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Api.Controllers;
 

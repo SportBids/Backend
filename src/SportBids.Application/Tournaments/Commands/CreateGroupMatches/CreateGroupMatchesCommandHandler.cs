@@ -1,8 +1,8 @@
 using FluentResults;
-using MapsterMapper;
 using MediatR;
+using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Persistence;
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.Tournaments.Commands.CreateGroupMatches;
 
@@ -28,7 +28,7 @@ public class CreateGroupMatchesCommandHandler : IRequestHandler<CreateGroupMatch
         if (tournament.IsPublic)
             return Result.Fail(new TournamentReadOnlyError(tournament.Id));
 
-        if (!tournament.Groups.Any())
+        if (tournament.Groups.Count == 0)
             return Result.Fail("Groups not found!");
 
         if (HasGroupsMissingTeams(tournament, out var errors))
@@ -40,6 +40,7 @@ public class CreateGroupMatchesCommandHandler : IRequestHandler<CreateGroupMatch
             group.Matches.Clear();
             CreateGroupMatches(group);
         }
+
         await _unitOfWork.SaveAsync(cancellationToken);
         return Result.Ok();
     }
@@ -57,6 +58,7 @@ public class CreateGroupMatchesCommandHandler : IRequestHandler<CreateGroupMatch
             errors = groupsMissingTeams.Select(group => new GroupTeamsMissingError(group.Name));
             return true;
         }
+
         errors = Array.Empty<IError>();
         return false;
     }
@@ -65,11 +67,11 @@ public class CreateGroupMatchesCommandHandler : IRequestHandler<CreateGroupMatch
     {
         var teams = group.Teams.ToArray();
         for (int i = 0; i < teams.Length; i++)
-            for (int j = i + 1; j < teams.Length; j++)
-            {
-                var match = CreateMatch(teams[i], teams[j]);
-                group.Matches.Add(match);
-            }
+        for (int j = i + 1; j < teams.Length; j++)
+        {
+            var match = CreateMatch(teams[i], teams[j]);
+            group.Matches.Add(match);
+        }
     }
 
     private Match CreateMatch(Team f, Team s)

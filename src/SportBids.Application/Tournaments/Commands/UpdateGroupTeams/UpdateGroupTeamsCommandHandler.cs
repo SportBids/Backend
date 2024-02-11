@@ -1,7 +1,7 @@
 using FluentResults;
 using MediatR;
+using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Persistence;
-using SportBids.Domain;
 
 namespace SportBids.Application.Tournaments.Commands.UpdateGroupTeams;
 
@@ -30,7 +30,7 @@ public class UpdateGroupTeamsCommandHandler : IRequestHandler<UpdateGroupTeamsCo
             .GetTeamsAsync(command.TournamentId, command.TeamIds, cancellationToken);
 
         var notFoundTeamIds = command.TeamIds.Where(teamId => !teams.Any(team => team.Id == teamId)).ToArray();
-        if (notFoundTeamIds.Any())
+        if (notFoundTeamIds.Length != 0)
             return Result.Fail(notFoundTeamIds.Select(id => new TeamNotFoundError(id)));
 
         group.Teams.Clear();

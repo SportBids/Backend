@@ -2,7 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace SportBids.Contracts.Account.ChangePassword;
+namespace SportBids.Api.Contracts.Account.ChangePassword;
 
 public class ChangePasswordRequest
 {

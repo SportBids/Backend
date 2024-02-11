@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SportBids.Domain;
+using SportBids.Domain.Entities;
 using SportBids.Infrastructure.Persistence;
 
 namespace SportBids.Infrastructure.UnitTests;

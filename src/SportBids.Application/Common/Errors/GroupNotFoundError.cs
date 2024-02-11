@@ -1,6 +1,4 @@
-﻿using SportBids.Application.Common.Errors;
-
-namespace SportBids.Application;
+﻿namespace SportBids.Application.Common.Errors;
 
 public class GroupNotFoundError : BadRequestError
 {

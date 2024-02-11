@@ -1,5 +1,5 @@
 using SportBids.Application.Common.Models;
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.Interfaces.Persistence;
 

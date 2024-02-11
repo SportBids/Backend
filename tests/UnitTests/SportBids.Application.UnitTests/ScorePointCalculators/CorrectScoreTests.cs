@@ -1,6 +1,8 @@
 ﻿using System.Runtime.Versioning;
+using SportBids.Application.Interfaces.PredictionScorePoints;
 using SportBids.Application.MatchPredictions.ScorePointCalculators;
 using SportBids.Domain;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.UnitTests.ScorePointCalculators;
 

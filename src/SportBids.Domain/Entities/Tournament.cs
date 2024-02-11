@@ -1,4 +1,4 @@
-﻿namespace SportBids.Domain;
+﻿namespace SportBids.Domain.Entities;
 public class Tournament : Entity<Guid>
 {
     public string Name { get; set; } = null!;

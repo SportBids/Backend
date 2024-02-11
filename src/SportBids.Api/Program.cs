@@ -1,9 +1,10 @@
 ﻿using System.Security.Claims;
-using SportBids.Api;
 using SportBids.Api.Extensions;
 using SportBids.Application;
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 using SportBids.Infrastructure;
+
+namespace SportBids.Api;
 
 internal class Program
 {

@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using SportBids.Application.Authentication.Commands.SignUp;
 
 namespace SportBids.Application.Authentication.Queries.SignIn;
 

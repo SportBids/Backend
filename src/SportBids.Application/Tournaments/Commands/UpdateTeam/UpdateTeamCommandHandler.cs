@@ -1,9 +1,10 @@
 using FluentResults;
 using MapsterMapper;
 using MediatR;
+using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Persistence;
 
-namespace SportBids.Application;
+namespace SportBids.Application.Tournaments.Commands.UpdateTeam;
 
 public class UpdateTeamCommandHandler : IRequestHandler<UpdateTeamCommand, Result>
 {

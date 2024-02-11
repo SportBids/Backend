@@ -1,6 +1,6 @@
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 
-namespace SportBids.Application;
+namespace SportBids.Application.Interfaces.PredictionScorePoints;
 
 public interface IPredictionScoreCalculator
 {

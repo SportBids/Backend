@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace SportBids.Application;
+namespace SportBids.Application.Tournaments.Queries.GetTournament;
 
 public class GetTournamentQueryValidator : AbstractValidator<GetTournamentQuery>
 {

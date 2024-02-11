@@ -3,12 +3,11 @@
 using FluentResults;
 using MapsterMapper;
 using MediatR;
-using SportBids.Application.Accounts.Commands.EditAccount;
 using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Services;
 using SportBids.Domain.Entities;
 
-namespace SportBids.Application.Accounts.Commands.UpdateAccount;
+namespace SportBids.Application.Accounts.Commands.EditAccount;
 
 public class EditAccountCommandHandler : IRequestHandler<EditAccountCommand, Result<AppUser>>
 {

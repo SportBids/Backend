@@ -1,5 +1,4 @@
-﻿using System;
-namespace SportBids.Application.Common.Errors;
+﻿namespace SportBids.Application.Common.Errors;
 
 public class ChangePasswordError : BadRequestError
 {

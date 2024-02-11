@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace SportBids.Api.Extensions;
+﻿namespace SportBids.Api.Extensions;
 
 public static class WebApplicationExtensions
 {

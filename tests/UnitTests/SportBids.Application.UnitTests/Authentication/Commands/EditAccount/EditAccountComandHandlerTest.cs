@@ -3,7 +3,6 @@ using FluentAssertions;
 using MapsterMapper;
 using Moq;
 using SportBids.Application.Accounts.Commands.EditAccount;
-using SportBids.Application.Accounts.Commands.UpdateAccount;
 using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Services;
 using SportBids.Domain.Entities;

@@ -1,5 +1,6 @@
 using FluentResults;
 using MediatR;
+using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Persistence;
 using SportBids.Application.Interfaces.Services;
 

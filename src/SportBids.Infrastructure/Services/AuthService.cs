@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using SportBids.Application.Common.Errors;
 using SportBids.Application.Common.Models;
 using SportBids.Application.Interfaces.Services;
-using SportBids.Domain;
 using SportBids.Domain.Entities;
 
 namespace SportBids.Infrastructure.Services;

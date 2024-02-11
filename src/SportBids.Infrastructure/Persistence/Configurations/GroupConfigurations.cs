@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 
-namespace SportBids.Infrastructure;
+namespace SportBids.Infrastructure.Persistence.Configurations;
 
 public class GroupConfigurations : IEntityTypeConfiguration<Group>
 {

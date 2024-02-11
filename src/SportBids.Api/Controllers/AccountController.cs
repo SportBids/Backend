@@ -1,10 +1,10 @@
 using System.Security.Claims;
-using FluentResults;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SportBids.Api.Contracts;
+using SportBids.Api.Contracts.Account.ChangePassword;
+using SportBids.Api.Contracts.Account.EditAccount;
 using SportBids.Api.Contracts.Account.ListAccounts;
 using SportBids.Api.Contracts.Account.SetUserRole;
 using SportBids.Application.Accounts.Commands.ChangePassword;
@@ -12,9 +12,7 @@ using SportBids.Application.Accounts.Commands.EditAccount;
 using SportBids.Application.Accounts.Commands.SetUserRole;
 using SportBids.Application.Accounts.Queries.GetAccounts;
 using SportBids.Application.Authentication.Commands.ConfirmEmail;
-using SportBids.Contracts.Account.ChangePassword;
-using SportBids.Contracts.Account.EditAccount;
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Api.Controllers;
 

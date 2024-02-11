@@ -1,9 +1,8 @@
 ﻿using FluentResults;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 
-namespace SportBids.Application;
+namespace SportBids.Application.Tournaments.Commands.UpdateMatch;
 
 public class UpdateMatchCommand : IRequest<Result>
 {

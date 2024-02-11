@@ -1,5 +1,4 @@
-﻿using System;
-namespace SportBids.Application.Interfaces.Persistence;
+﻿namespace SportBids.Application.Interfaces.Persistence;
 
 public interface IUnitOfWork
 {

@@ -1,5 +1,5 @@
 using Mapster;
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Api.Common.Mapping;
 

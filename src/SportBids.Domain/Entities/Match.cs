@@ -1,4 +1,4 @@
-namespace SportBids.Domain;
+namespace SportBids.Domain.Entities;
 
 public class Match : Entity<Guid>
 {

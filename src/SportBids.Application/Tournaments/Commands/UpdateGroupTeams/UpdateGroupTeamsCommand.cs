@@ -1,5 +1,4 @@
 ﻿using FluentResults;
-using FluentValidation;
 using MediatR;
 
 namespace SportBids.Application.Tournaments.Commands.UpdateGroupTeams;

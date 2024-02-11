@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SportBids.Application.Interfaces.Persistence;
 using SportBids.Domain;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Infrastructure.Persistence.Repositories;
 

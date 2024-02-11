@@ -1,6 +1,6 @@
 using Mapster;
 using SportBids.Api.Contracts.Tournament.GetTournament;
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Api.Common.Mapping;
 

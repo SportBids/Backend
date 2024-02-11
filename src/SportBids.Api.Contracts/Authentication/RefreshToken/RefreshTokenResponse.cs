@@ -1,6 +1,6 @@
 ﻿#nullable disable
 
-namespace SportBids.Contracts.Authentication.RefreshToken;
+namespace SportBids.Api.Contracts.Authentication.RefreshToken;
 
 public class RefreshTokenResponse
 {

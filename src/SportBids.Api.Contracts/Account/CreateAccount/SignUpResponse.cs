@@ -1,6 +1,6 @@
 ﻿#nullable disable
 
-namespace SportBids.Contracts.Account.SignUp;
+namespace SportBids.Api.Contracts.Account.CreateAccount;
 
 public class SignUpResponse
 {
@@ -9,4 +9,4 @@ public class SignUpResponse
     public string LastName { get; init; }
     public string AccessToken { get; init; }
     public string RefreshToken { get; init; }
-};
+}

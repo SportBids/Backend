@@ -1,6 +1,5 @@
-﻿using FluentResults;
-using MediatR;
-using SportBids.Domain;
+﻿using MediatR;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.Tournaments.Queries.GetTournaments;
 

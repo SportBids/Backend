@@ -1,7 +1,7 @@
 using FluentResults;
 using MediatR;
 using SportBids.Application.Interfaces.Persistence;
-using SportBids.Domain;
+using SportBids.Domain.Entities;
 
 namespace SportBids.Application.MatchPredictions.Queries.GetMatchesPredictions;
 

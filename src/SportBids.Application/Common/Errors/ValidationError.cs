@@ -1,6 +1,4 @@
-﻿using FluentResults;
-
-namespace SportBids.Application.Common.Errors;
+﻿namespace SportBids.Application.Common.Errors;
 
 public class ValidationError : BadRequestError
 {

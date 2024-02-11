@@ -1,6 +1,6 @@
 #nullable disable
 
-namespace SportBids.Domain;
+namespace SportBids.Domain.Entities;
 
 public abstract class Entity<TId>
 {

@@ -1,8 +1,8 @@
 using FluentResults;
 using MapsterMapper;
 using MediatR;
+using SportBids.Application.Common.Errors;
 using SportBids.Application.Interfaces.Persistence;
-using SportBids.Domain;
 
 namespace SportBids.Application.Tournaments.Commands.UpdateTournament;
 

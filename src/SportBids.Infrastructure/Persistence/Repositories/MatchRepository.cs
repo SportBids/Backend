@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SportBids.Application.Interfaces.Persistence;
-using SportBids.Domain;
-using SportBids.Infrastructure.Persistence;
-using SportBids.Infrastructure.Persistence.Repositories;
+using SportBids.Domain.Entities;
 
-namespace SportBids.Infrastructure;
+namespace SportBids.Infrastructure.Persistence.Repositories;
 
 public class MatchRepository : RepositoryBase<Match, Guid>, IMatchRepository
 {
