@@ -2,6 +2,7 @@
 using SportBids.Domain.Entities;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using SportBids.Domain;
 
 class DBSeeder : IDBInitializer
 {
@@ -25,7 +26,7 @@ class DBSeeder : IDBInitializer
 
         var claims = new Claim[]
         {
-            new Claim(ClaimTypes.Role, UserClaims.Administrator.ToString())
+            new Claim(ClaimTypes.Role, UserRoles.Administrator.ToString())
         };
         var claimAdditionResult = await authService.AddUserClaimsAsync(result.Value, claims);
         if (claimAdditionResult.IsFailed)

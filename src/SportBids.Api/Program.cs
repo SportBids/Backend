@@ -1,14 +1,13 @@
 ﻿using System.Security.Claims;
-using FluentResults;
 using SportBids.Api;
 using SportBids.Api.Extensions;
 using SportBids.Application;
-using SportBids.Domain.Entities;
+using SportBids.Domain;
 using SportBids.Infrastructure;
 
 internal class Program
 {
-    private static async Task Main(string[] args)
+    private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -22,13 +21,18 @@ internal class Program
         // builder.Services.AddEndpointsApiExplorer();
         // builder.Services.AddSwaggerGen();
 
-        builder.Services.AddAuthorization(configure =>
-        {
-            configure.AddPolicy("adminOnly",
-                                policy => policy.RequireClaim(ClaimTypes.Role, UserClaims.Administrator.ToString()));
-            configure.AddPolicy("adminOrModerator",
-                                policy => policy.RequireClaim(ClaimTypes.Role, UserClaims.Administrator.ToString(), UserClaims.Moderator.ToString()));
-        });
+        builder.Services.AddAuthorization(
+            configure =>
+            {
+                configure.AddPolicy(
+                    "adminOnly",
+                    policy => policy.RequireClaim(ClaimTypes.Role, UserRoles.Administrator.ToString()));
+                configure.AddPolicy(
+                    "adminOrModerator",
+                    policy => policy.RequireClaim(
+                        claimType: ClaimTypes.Role,
+                        allowedValues: new[] { UserRoles.Administrator.ToString(), UserRoles.Moderator.ToString() }));
+            });
 
         var app = builder.Build();
 
@@ -40,12 +44,13 @@ internal class Program
             app.SeedData();
         }
 
-        app.UseCors(config =>
-        {
-            config.AllowAnyOrigin();
-            config.AllowAnyMethod();
-            config.AllowAnyHeader();
-        });
+        app.UseCors(
+            config =>
+            {
+                config.AllowAnyOrigin();
+                config.AllowAnyMethod();
+                config.AllowAnyHeader();
+            });
         // app.UseHttpsRedirection();
         app.UseAuthentication();
         app.UseAuthorization();
@@ -53,6 +58,5 @@ internal class Program
         app.MapControllers();
 
         app.Run();
-
     }
 }
