@@ -27,7 +27,6 @@
 
     <ItemGroup>
       <Folder Include="Persistence\Migrations\SQLite\" />
-      <Folder Include="Persistence\Repositories\" />
     </ItemGroup>
 
     <ItemGroup>

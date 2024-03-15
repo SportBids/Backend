@@ -27,7 +27,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Accounts\Commands\ChangePassword\" />
-    <Folder Include="Interfaces\Persistence\" />
     <Folder Include="Authentication\Commands\RevokeToken\" />
     <Folder Include="Authentication\Commands\RenewJwt\" />
     <Folder Include="MatchPredictions/Commands/CreateUpdate/" />

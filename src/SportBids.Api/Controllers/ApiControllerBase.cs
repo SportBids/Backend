@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Security.Claims;
+using System.Text;
 using FluentResults;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,11 @@ namespace SportBids.Api.Controllers;
 [Authorize]
 public abstract class ApiControllerBase : ControllerBase
 {
+    protected Guid GetUserId()
+    {
+        return Guid.Parse(User.Claims.First(i => i.Type == ClaimTypes.NameIdentifier).Value);
+    }
+
     protected IActionResult ProcessError(List<IError> errors)
     {
         if (errors.All(error => error is ValidationError) || errors.All(error => error is UserCreationError))
@@ -21,7 +27,7 @@ public abstract class ApiControllerBase : ControllerBase
                 // modelStateDictionary.AddModelError(
                 //     keyValuePair.Key,
                 //     keyValuePair.Value.ToString() ?? string.Empty);
-                var values = keyValuePair.Value as string[] ?? new[]{""};
+                var values = keyValuePair.Value as string[] ?? new[] { "" };
                 foreach (var value in values)
                 {
                     modelStateDictionary.AddModelError(keyValuePair.Key, value);
@@ -46,20 +52,22 @@ public abstract class ApiControllerBase : ControllerBase
         //         .Aggregate(" ", (s, s1) => string.Concat(s, " ", s1));
         // }
 
-        var errorMessage = errors.Select(e =>
-        {
-            var sb = new StringBuilder();
-            sb.Append(e.Message);
-            if (e.Metadata.Count > 0)
+        var errorMessage = errors.Select(
+            e =>
             {
-                sb.Append("(");
-                foreach (var mdv in e.Metadata.Values)
-                    sb.AppendLine(mdv.ToString());
-                sb.AppendLine(")");
-            }
-            else sb.AppendLine();
-            return sb.ToString();
-        }).Aggregate((a, b) => string.Concat(a, b));
+                var sb = new StringBuilder();
+                sb.Append(e.Message);
+                if (e.Metadata.Count > 0)
+                {
+                    sb.Append("(");
+                    foreach (var mdv in e.Metadata.Values)
+                        sb.AppendLine(mdv.ToString());
+                    sb.AppendLine(")");
+                }
+                else sb.AppendLine();
+
+                return sb.ToString();
+            }).Aggregate((a, b) => string.Concat(a, b));
 
         return Problem(statusCode: statusCode, title: errorMessage);
     }

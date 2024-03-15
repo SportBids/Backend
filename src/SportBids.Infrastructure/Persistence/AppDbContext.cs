@@ -17,6 +17,7 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     public DbSet<Tournament> Tournaments { get; set; }
     public DbSet<Group> Groups { get; set; }
     public DbSet<Team> Teams { get; set; }
+    public DbSet<PrivateLeaderBoard> PrivateLeaderBoards { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)

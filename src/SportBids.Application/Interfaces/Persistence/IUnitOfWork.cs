@@ -7,6 +7,7 @@ public interface IUnitOfWork
     IMatchRepository Matches { get; }
     ITeamRepository Teams { get; }
     IPredictionRepository Predictions { get; }
+    IPrivateLeaderBoardRepository PrivateLeaderBoards { get; }
 
     void Save();
     Task SaveAsync(CancellationToken cancellationToken);

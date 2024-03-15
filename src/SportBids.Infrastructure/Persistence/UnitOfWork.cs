@@ -11,6 +11,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly Lazy<IMatchRepository> _matchRepository;
     private readonly Lazy<ITeamRepository> _teamRepository;
     private readonly Lazy<IPredictionRepository> _predictionRepository;
+    private readonly Lazy<IPrivateLeaderBoardRepository> _leaderBoardRepository;
 
     public UnitOfWork(
         AppDbContext context,
@@ -18,14 +19,16 @@ public class UnitOfWork : IUnitOfWork
         Lazy<IGroupRepository> groupRepository,
         Lazy<IMatchRepository> matchRepository,
         Lazy<ITeamRepository> teamRepository,
-        Lazy<IPredictionRepository> predictionRepository)
+        Lazy<IPredictionRepository> predictionRepository,
+        Lazy<IPrivateLeaderBoardRepository> leaderBoardRepository)
     {
-        _context = context;
-        _tournamentRepository = tournamentRepository;
-        _groupRepository = groupRepository;
-        _matchRepository = matchRepository;
-        _teamRepository = teamRepository;
-        _predictionRepository = predictionRepository;
+        _context                    = context;
+        _tournamentRepository       = tournamentRepository;
+        _groupRepository            = groupRepository;
+        _matchRepository            = matchRepository;
+        _teamRepository             = teamRepository;
+        _predictionRepository       = predictionRepository;
+        _leaderBoardRepository = leaderBoardRepository;
     }
 
     public ITournamentRepository Tournaments => _tournamentRepository.Value;
@@ -33,6 +36,7 @@ public class UnitOfWork : IUnitOfWork
     public IMatchRepository Matches => _matchRepository.Value;
     public ITeamRepository Teams => _teamRepository.Value;
     public IPredictionRepository Predictions => _predictionRepository.Value;
+    public IPrivateLeaderBoardRepository PrivateLeaderBoards => _leaderBoardRepository.Value;
 
     public void Save()
     {

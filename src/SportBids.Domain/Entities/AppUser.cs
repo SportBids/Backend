@@ -9,6 +9,7 @@ public class AppUser : IdentityUser<Guid>, IEquatable<AppUser>
     public List<RefreshToken> RefreshTokens { get; set; } = new();
 
     public ICollection<Prediction>? Predictions { get; set; }
+    public ICollection<PrivateLeaderBoard> PrivateLeaderBoards { get; set; }
 
     public bool Equals(AppUser? other)
     {
